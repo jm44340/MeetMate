@@ -1,0 +1,9 @@
+{
+    "db_name": "meetmate",
+    "db_host": "localhost",
+    "db_port": 27017,
+    "db_user": "",
+    "db_pass": ""
+
+    
+}
