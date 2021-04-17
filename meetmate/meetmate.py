@@ -48,6 +48,11 @@ def logout():
     session.pop("username", None)
     return redirect(url_for("index"))
 
+
+@app.route("/admin")
+def admin():
+    return redirect(url_for("admin"))
+
 @app.route("/meet/<meet_id>")
 def meet(meet_id):
     return str(meet_id)
