@@ -1,22 +1,3 @@
-
-$( "#sign-in > input" )
-    .on( "mouseenter", function() {
-        var inputHoverOn = anime({
-            targets: this,
-            backgroundColor: '#aeebad',
-            duration: 500,
-            easing: 'linear'
-        });
-    })
-    .on( "mouseleave", function() {
-        var inputHoverOut = anime({
-            targets: this,
-            backgroundColor: '#77DD76',
-            duration: 500,
-            easing: 'linear'
-        });
-});
-
 $(document).ready(function() {
     
     if(!('hasBeenVisited' in localStorage)) {
