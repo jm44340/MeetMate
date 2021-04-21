@@ -4,6 +4,8 @@
 
 @tertiary-color: #FFFFFF;
 
+@primary-darker: #5ED65C;
+
 @primary-radius: 0.25rem;
 
 @gray: #35363A;
@@ -58,11 +60,11 @@ body, html{
 
 #sign-in{
 	width:300px;
-	background-color: @primary-color;
+	background-color: @lighter-gray;
 	border-radius: @primary-radius;
 	border-top-left-radius: 2.5rem;
 	border-bottom-right-radius: 2.5rem;
-	box-shadow:0px 0px 0px 1.5px @primary-color;
+	box-shadow:0px 0px 0 1.5px @primary-darker;	
 	display: flex;
 	align-self: center;
 	flex-direction: column;
@@ -75,20 +77,29 @@ body, html{
 	text-align: center;
 }
 
+#sign-in > h1{
+	color: @primary-color;
+}
 
 .form-control{
 	border: 1px solid transparent;
 	color: @lighter-gray;
+	background-color: @primary-color;
 }
 
 .form-control:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus, input[type="number"]:focus, select:focus{
 	border: 1px solid @seconary-color;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 2px rgba(255, 255, 255, 0);
 	background-color: @seconary-color;
+	
+}
+
+#sign-in > input:hover{
+	background-color: @seconary-color;
 }
 
 #sign-in > button{
-	background-color: @seconary-color;
+	background-color: @primary-darker;
 	border: none;
 	padding: 4px;
 	border-radius: 0.3rem;
@@ -97,7 +108,9 @@ body, html{
 	right:40px;
 	color: white;
 	text-align:center;
-	box-shadow: 1px 1px 1px rgba(128, 128, 128, 0.3);
+	box-shadow: 0px 0px 0px 1px rgba(128, 128, 128, 0.05);
+	border:1px solid rgba(128, 128, 128, 0.1);
+	color: @tertiary-color;
 }
 
 
