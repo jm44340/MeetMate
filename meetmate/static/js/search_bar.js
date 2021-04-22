@@ -2,7 +2,7 @@ function searchForUser(){
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById('searchBar');
     filter = input.value.toUpperCase();
-    ul = document.getElementById("user-list-wrapper");
+    ul = document.getElementById("user-list");
     li = ul.getElementsByTagName('li');
 
     for (i = 0; i < li.length; i++) {
