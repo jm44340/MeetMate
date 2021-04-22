@@ -1,8 +1,35 @@
+
+
+
+
+$("#sign-in > input").keyup(function(){
+    if(this.value != ""){
+        $("path").eq($(this).index()-1).css("fill", "#388037");
+    }
+    else{
+        $("path").eq($(this).index()-1).css("fill", "#77DD76");
+    }
+});
+
+$("#sign-in > button").hover(
+    function() {
+        $("circle").css("fill", "#388037");
+    
+    }, function() {
+        $("circle").css("fill", "#77DD76");
+    });
+
+
+
 $(document).ready(function() {
     
+
+
+
     if(!('hasBeenVisited' in localStorage)) {
         localStorage.setItem("hasBeenVisited", true);
 
+        $("#sign-in > input, #sign-in > button").css("transition", "0s");
 
         var dotAnimation = anime({
             targets: '#title-dot',
@@ -41,26 +68,49 @@ $(document).ready(function() {
             easing: 'easeInOutSine',
         });
         
+        var logoAnimation = anime({
+            targets: '#logo',
+            translateY:{
+                value:['400%', 0],
+                duration: 1000,
+                delay: 1150
+            },
+            opacity:{
+                value:[0, 1],
+                duration: 1000,
+                delay: 2000
+            },
+            
+            easing: 'easeInOutSine',
+        });
+        
+
         var loginAreaAnimation = anime({
             targets: '#sign-in',
             opacity: [0, 1], 
             translateY: {
-                value: [-100, 0],
+                value: [-50, 0],
                 easing: 'easeInOutSine',
                 duration: 1000,
-                delay: 3000
+                delay: 2000
             },
             borderTopLeftRadius:{
                 value: [0, '2.5rem'],
-                delay: 3700,
+                delay: 2700,
             },
             borderBottomRightRadius:{
                 value: [0, '2.5rem'],
-                delay: 3700,
+                delay: 2700,
+            },
+            scaleY: {
+                value: [0, 1],
+                easing: 'easeInOutSine',
+                duration: 1000,
+                delay: 2000
             },
             easing: 'easeInOutSine',
             duration: 1000,
-            delay: 3000
+            delay: 2000
         })
 
         var waveAnimation = anime({
@@ -78,11 +128,14 @@ $(document).ready(function() {
             translateX: [-100, 0],
             opacity: [0, 1],
             delay: function(el, i, l) {
-                return 4500 + (i * 150);
+                return 3500 + (i * 150);
             }
         })
-
-
+        
+        setTimeout(function(){ 
+            $("#sign-in > input, #sign-in > button").css("transition", "0.5s");
+        }, 4500);
+        
 
     }
         
