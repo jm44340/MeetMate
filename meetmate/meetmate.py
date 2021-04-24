@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, session, request, g
-from user import User
+from user import User, UserType
+
 import database
 import setting
 import user
@@ -46,6 +47,13 @@ def logout():
 
 @app.route("/admin")
 def admin():
+    if "user" not in session.keys():
+        return redirect(url_for("login"))
+
+    user = User(session["user"])
+    if user.type != UserType.ADMINISTRATOR:
+        return redirect(url_for("login"))
+
     return render_template("admin.html")
 
 @app.route("/meet/<meet_id>")
