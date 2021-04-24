@@ -27,7 +27,7 @@ def index():
 @app.route("/login", methods=["GET", "POST"]) #TODO: Do this by AJAX api calls
 def login():
     if "user" in session:
-        redirect(url_for("test")) # redirect to user panel
+        return redirect(url_for("test")) # redirect to user panel
 
     if request.method == "POST":
         try:
@@ -36,7 +36,13 @@ def login():
             return redirect(url_for("index")) # invalid post data, email or password
 
         session["user"] = str(user.id)
-        return redirect(url_for("test"))
+
+        if user.type == UserType.ADMINISTRATOR:
+            return redirect(url_for("admin_panel"))
+        elif user.type == UserType.ORGANIZER:
+            return redirect(url_for("organizer_panel"))
+        else:
+            return redirect(url_for("user_panel"))
 
     return render_template("login.html")
 
@@ -46,7 +52,7 @@ def logout():
     return redirect(url_for("index"))
 
 @app.route("/admin")
-def admin():
+def admin_panel():
     if "user" not in session.keys():
         return redirect(url_for("login"))
 
@@ -56,23 +62,33 @@ def admin():
 
     return render_template("admin.html")
 
+
+@app.route("/user")
+def user_panel():
+    if "user" not in session.keys():
+        return redirect(url_for("login"))
+
+    user = User(session["user"])
+    if user.type != UserType.USER:
+        return redirect(url_for("login"))
+
+    return render_template("user.html")
+
+
 @app.route("/meet/<meet_id>")
-def meet(meet_id):
+def meet_panel(meet_id):
     return str(meet_id)
 
-@app.route("/test")
-def test():
-    if "user" in session.keys():
-        user = User(session["user"])
-        return "You are logon! - " + user.first_name + " " + user.last_name
-    else:
-        return "Please login first"
 
 @app.route("/test_register")
 def test_register():
     try:
-        User.add_user("test@test.com", "123456", "000000000", "Adam", "Małysz")
+        User.add_user("admin@admin.com", "123456", "000000000", "Adam", "Małysz")
     except user.ExistError:
         return("User already exist")
 
     return redirect(url_for("index"))
+
+
+
+
