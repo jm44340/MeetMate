@@ -6,6 +6,7 @@ if [ "$UNAME" == "Linux" ] ; then
 fi
 
 rm -rv ./docs/*
+mkdir -p ./docs
 pushd ./meetmate
 $PYTHON -m pdoc --output-dir ../docs --html . 
 popd
