@@ -1,7 +1,5 @@
-import hashlib
 from pymongo import MongoClient
 
-Mongo = None
 db = None
 
 class Database:
@@ -19,18 +17,49 @@ class Database:
 
         self.db = self.Mongo[database]
 
-    def add_user(self, user: str, password: str):
+    # Users
+
+    def new_user(self):
         db_users = self.db.users
-        db_users.insert_one(
+        user_id = db_users.insert_one(
             {
-                "username": user,
-                "password": hashlib.sha512(password.encode()).hexdigest(),
-                "type": "user",
-                "status": "unactivated"
+                "email": None,
+                "salt": None,
+                "password": None,
+                "phone_number": None,
+                "first_name": None,
+                "last_name": None,
+                "groups": [],
+                "type": None,
+                "status": None,
+            }
+        )
+        return user_id.inserted_id
+
+    def get_user(self, value: str, variable="_id"):
+        db_users = self.db.users
+        user = db_users.find_one({variable: value})
+        return user
+
+    def update_user(self, user_id, variable, value):
+        db_users = self.db.users
+        db_users.update_one(
+            {"_id": user_id},
+            {
+                "$set":{
+                    variable: value
+                }
             }
         )
 
-    def get_user(self, user: str):
-        db_users = self.db.users
-        user = list(db_users.find({"username": user}))
-        return user
+
+def database_init(database, host, port, user, password):
+    global db
+
+    db = Database(
+        database,
+        host,
+        port,
+        user,
+        password,
+    )
