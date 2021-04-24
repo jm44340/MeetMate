@@ -51,10 +51,10 @@
   </div>
 
     <div id="sign-in-wrapper">
-      <form id="sign-in" class="p-4">
+      <form id="sign-in" class="p-4" method="POST">
         <h1 class="h3 mb-5 font-weight-normal">Logowanie</h1>
-        <input type="email" id="inputEmail" class="form-control mb-3" placeholder="Adres e-mail" required="" autofocus="">
-        <input type="password" id="inputPassword" class="form-control mb-5" placeholder="Hasło" required="">
+        <input type="email" id="inputEmail" name="email" class="form-control mb-3" placeholder="Adres e-mail" required="" autofocus="">
+        <input type="password" id="inputPassword" name="password" class="form-control mb-5" placeholder="Hasło" required="">
         <button type="submit" class="mb-3">Zaloguj</button>
       </form>
     </div>
