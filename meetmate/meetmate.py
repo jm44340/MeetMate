@@ -5,6 +5,7 @@ import database
 import setting
 import user
 import os
+import sms_provider
 
 setting.setting_init()
 setting = setting.setting
