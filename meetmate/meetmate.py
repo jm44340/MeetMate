@@ -30,7 +30,13 @@ def index():
 @app.route("/login", methods=["GET", "POST"]) #TODO: Do this by AJAX api calls
 def login():
     if "user" in session:
-        return redirect(url_for("test")) # redirect to user panel
+        user = User(session["user"])
+        if user.type == UserType.ADMINISTRATOR:
+            return redirect(url_for("admin_panel"))
+        elif user.type == UserType.ORGANIZER:
+            return redirect(url_for("organizer_panel"))
+        else:
+            return redirect(url_for("user_panel"))
 
     if request.method == "POST":
         try:
@@ -39,7 +45,6 @@ def login():
             return redirect(url_for("index")) # invalid post data, email or password
 
         token = str(randint(0,999999)).zfill(6)
-        print(token) #TODO delete it
         sms_provider.send_2fa(user.phone_number, token)
         session["auth_id"] = str(user.id)
         session["auth_token"] = token
@@ -51,7 +56,13 @@ def login():
 @app.route("/auth", methods=["GET", "POST"])
 def auth():
     if "user" in session:
-        return redirect(url_for("test")) # redirect to user panel
+        user = User(session["user"])
+        if user.type == UserType.ADMINISTRATOR:
+            return redirect(url_for("admin_panel"))
+        elif user.type == UserType.ORGANIZER:
+            return redirect(url_for("organizer_panel"))
+        else:
+            return redirect(url_for("user_panel"))
 
     if request.method == "POST":
         if request.form["password"] == session["auth_token"]:
