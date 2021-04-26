@@ -8,5 +8,13 @@
     "sms_url": "https://api.gsmservice.pl/v5/send.php",
     "sms_user": "",
     "sms_pass": "",
-    "sms_type": "3"
+    "sms_type": "3",
+    "sms_sender": "meetmate",
+
+    "mail_host": "smtp.mailtrap.io",
+    "mail_port": 2525,
+    "mail_user": "",
+    "mail_pass": "",
+    "mail_sender": "meetmate@meetmate.com"
+
 }

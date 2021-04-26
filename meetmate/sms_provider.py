@@ -6,7 +6,7 @@ setting = setting.setting
 
 
 def send_sms(recipient, message):
-	url = setting["sms_url"]
+	url = setting["sms_host"]
 	data = {
 		"login": setting["sms_user"],
 		"pass": setting["sms_pass"],
@@ -19,7 +19,7 @@ def send_sms(recipient, message):
 
 
 def send_2fa(recipient, code):
-	url = setting["sms_url"]
+	url = setting["sms_host"]
 	message = "Twoje jednorazowe haslo SMS do autoryzacji: " + code
 	data = {
 		"login": setting["sms_user"],
