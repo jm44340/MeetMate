@@ -18,10 +18,10 @@
 
 
 
-    <title>MeetMate</title>
+    <title>MeetMate - Autoryzacja</title>
   </head>
   
-  <body id="index-body">
+  <body id="authentication-body">
     
     <div id="title" class="mt-5 mb-2">
       MeetMate
@@ -52,25 +52,12 @@
 
 
 
-  <div id="sign-in-wrapper">
-    <form class="login-menu-wrapper" id="sign-in" method="POST">
-      <h1 class="h3 mb-5 font-weight-normal">Logowanie</h1>
-      <input type="email" id="inputEmail" name="email" class="form-control mb-3" placeholder="Adres e-mail" required="" autofocus="">
-      <input type="password" id="inputPassword" name="password" class="form-control mb-5" placeholder="Hasło" required="">
-      <button type="submit" class="mb-3">Zaloguj</button>
-      <div class="reset-password-cycle" class="mb-3">Zresetuj hasło</div>
+  <div id="authentication-wrapper">
+    <form class="login-menu-wrapper" id="authentication" method="POST">
+      <h1 class="h3 mb-5 font-weight-normal">Autoryzacja</h1>
+      <input type="password" pattern="[0-9]*" maxlength="6" inputmode="numeric" id="inputPassword" name="password" class="form-control mb-5" placeholder="Kod" required="">
+      <button type="submit" class="mb-5">Zaloguj</button>
     </form>
-
-    <form class="login-menu-wrapper" id="reset-password-wrapper">
-      <h1 class="h3 mb-5 font-weight-normal">Zresetuj hasło</h1>
-      <input type="email" id="inputEmailReset" name="email" class="form-control" placeholder="Adres e-mail" required="" autofocus="">
-      <button type="submit" class="mb-3">Resetuj</button>
-      <div class="reset-password-cycle" class="mb-3">Cofnij</div>
-    </form>
-  </div>
-
-
-
   </div>
 
 
@@ -81,7 +68,6 @@
     <div id="wave-wrapper">
       <div id="wave"></div>
     </div>
-    <script src="../static/js/index_animation.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
   </body>
 </html>

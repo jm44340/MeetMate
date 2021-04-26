@@ -17,14 +17,72 @@ $("#sign-in > button").hover(
     
     }, function() {
         $("circle").css("fill", "#77DD76");
+});
+
+
+function slideIn(div){
+    anime({
+        targets: div,
+        translateX: [
+            { value: -150, duration: 125},
+            { value: 0, duration: 125, delay: 125}
+        ],
+        scale: [
+            { value: 0.5, duration: 0, delay: 0},
+            { value: 1, duration: 125, delay: 125 },
+        ],
+        zIndex: [
+            { value: 2, duration: 125, delay: 50}
+        ],
+        easing: 'easeInOutSine',
     });
+}
+
+function slideOut(div){
+    anime({
+        targets: div,
+        translateX: [
+            { value: 150, duration: 125},
+            { value: 0, duration: 125, delay: 125}
+        ],
+        scale: [
+            { value: 1, duration: 0, delay: 0 },
+            { value: 0.5, duration: 125, delay: 125 },
+        ],
+        zIndex: [
+            { value: 1, duration: 125, delay: 50}
+        ],
+        easing: 'easeInOutSine',
+
+    });
+}   
+
+
+var cycle = 0;
+
+$(".reset-password-cycle").click(function(){
+
+
+
+    if(cycle % 2 == 0){
+        slideIn('#reset-password-wrapper');
+        slideOut('#sign-in');
+    }else{
+        slideOut('#reset-password-wrapper');
+        slideIn('#sign-in');
+    }
+
+    
+
+   
+    cycle++;
+});
+
 
 
 
 $(document).ready(function() {
     
-
-
 
     if(!('hasBeenVisited' in localStorage)) {
         localStorage.setItem("hasBeenVisited", true);

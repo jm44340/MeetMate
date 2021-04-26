@@ -46,10 +46,19 @@ def login():
 
     return render_template("login.html")
 
+
+
+
 @app.route("/logout")
 def logout():
     session.pop("user", None)
     return redirect(url_for("index"))
+
+
+#@app.route("/reset") #TODO
+#def reset_password(): #TODO
+    #return redirect(url_for("index")) #TODO
+
 
 @app.route("/admin")
 def admin_panel():

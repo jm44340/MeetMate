@@ -1,3 +1,4 @@
+
 function searchForUser(){
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById('searchBar');
@@ -14,5 +15,13 @@ function searchForUser(){
             li[i].style.display = "none";
         }
     }
+
+    if ($("#user-list").get(0).scrollHeight > $("#user-list").height()) {
+        $("#user-list > li").css("padding-right", "1rem");
+    } else{
+        $("#user-list > li").css("padding-right", "0rem");
+    }
+
+
 }
 

@@ -20,9 +20,19 @@
 	box-sizing: border-box;		
 }
 
+button > a{
+	width: 100%;
+	height: 100%;
+	text-decoration: none;
+	color: black;
+	display: block;
+}
 
+button > a:hover{
+	color: black;
+}
 
-#index-body{
+#index-body, #authentication-body{
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
@@ -65,15 +75,17 @@ path, circle{
 }
 
 
-#sign-in-wrapper{
+#sign-in-wrapper, #authentication-wrapper{
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	flex: 1;
+	flex-direction: row;
+
+	
 }
 
-
-#sign-in{
+.login-menu-wrapper{
 	width:300px;
 	background-color: @lighter-gray;
 	border-radius: @primary-radius;
@@ -84,15 +96,22 @@ path, circle{
 	align-self: center;
 	flex-direction: column;
 	margin-bottom: 100px;
+	padding: 1.5rem;
+	padding-bottom:0;
+	position: relative;
+	height: 343px;
 }
 
+#sign-in{
+	left:150px;
+	z-index: 1;
+}
 
-
-#sign-in > *{
+.login-menu-wrapper > *{
 	text-align: center;
 }
 
-#sign-in > h1{
+.login-menu-wrapper > h1{
 	color: @primary-color;
 	text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
 }
@@ -120,7 +139,7 @@ input:hover{
 }
 
 
-#sign-in > button{
+.login-menu-wrapper > button{
 	background-color: @primary-color;
 	border: none;
 	padding: 4px;
@@ -135,15 +154,15 @@ input:hover{
 	transition: 0.5s;
 }
 
-#sign-in > button:hover{
+.login-menu-wrapper > button:hover{
 	background-color: @primary-darker;
 }
 
 
-#sign-in > button:active, 
-#sign-in > button:focus, 
-#sign-in > button:active:focus
-#sign-in > button{
+.login-menu-wrapper  > button:active, 
+.login-menu-wrapper  > button:focus, 
+.login-menu-wrapper  > button:active:focus
+.login-menu-wrapper  > button{
 	background-color: @primary-color;
 	border:0;
 	transition:.5s;
@@ -151,6 +170,27 @@ input:hover{
 	outline:none !important;
 }
 
+.login-menu-wrapper > .reset-password-cycle{
+	background-color: transparent;
+	box-shadow: none;
+	color: @primary-color;
+	font-size: 1rem;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#reset-password-wrapper{
+	right: 150px;
+}
+
+#reset-password-wrapper > #inputEmailReset{
+	margin-bottom: 82px;
+	margin-top:20px;
+}
+
+#authentication{
+	height: initial;
+}
 
 
 #wave-wrapper{
@@ -233,17 +273,6 @@ input:hover{
 	margin-right: 2rem;
 }
 
-.inline-menu > li > button > a{
-	width: 100%;
-	height: 100%;
-	text-decoration: none;
-	color: black;
-	display: block;
-}
-
-.inline-menu > li > button > a:hover{
-	color: black;
-}
 
 
 .inline-menu > li:last-child{
@@ -372,4 +401,5 @@ input:hover{
 	  transform: translate3d(0, 35px, 0);
 	}
   }
+
 
