@@ -20,14 +20,14 @@ def send_sms(recipient, message):
 
 def send_2fa(recipient, code):
 	url = setting["sms_host"]
-	message = "Twoje jednorazowe haslo SMS do autoryzacji: " + code
+	message = "MeetMate: Twoje jednorazowe haslo SMS do autoryzacji to " + code
 	data = {
 		"login": setting["sms_user"],
 		"pass": setting["sms_pass"],
 		"msg_type": setting["sms_type"],
 		"recipient": recipient,
 		"message": message,
-		"sandbox": "1"  # TODO set to 0 to disable sandbox
+		"sandbox": "0"  # TODO set to 0 to disable sandbox
 	}
 	requests.post(url=url, data=data)
 	print(message)

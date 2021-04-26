@@ -1,3 +1,4 @@
+from random import randint
 from flask import Flask, render_template, redirect, url_for, session, request, g
 from user import User, UserType
 
@@ -37,16 +38,40 @@ def login():
         except:
             return redirect(url_for("index")) # invalid post data, email or password
 
-        session["user"] = str(user.id)
-
-        if user.type == UserType.ADMINISTRATOR:
-            return redirect(url_for("admin_panel"))
-        elif user.type == UserType.ORGANIZER:
-            return redirect(url_for("organizer_panel"))
-        else:
-            return redirect(url_for("user_panel"))
+        token = str(randint(0,999999)).zfill(6)
+        print(token) #TODO delete it
+        sms_provider.send_2fa(user.phone_number, token)
+        session["auth_id"] = str(user.id)
+        session["auth_token"] = token
+        return redirect(url_for("auth"))
 
     return render_template("login.html")
+
+
+@app.route("/auth", methods=["GET", "POST"])
+def auth():
+    if "user" in session:
+        return redirect(url_for("test")) # redirect to user panel
+
+    if request.method == "POST":
+        if request.form["password"] == session["auth_token"]:
+            user = User(session["auth_id"])
+            session["user"] = str(user.id)
+            session.pop("auth_id", None)
+            session.pop("auth_token", None)
+            if user.type == UserType.ADMINISTRATOR:
+                return redirect(url_for("admin_panel"))
+            elif user.type == UserType.ORGANIZER:
+                return redirect(url_for("organizer_panel"))
+            else:
+                return redirect(url_for("user_panel"))
+        else:
+            return redirect(url_for("index"))
+    if "auth_token" in session:
+        return render_template("authentication.html")
+    else:
+        return redirect(url_for("login"))
+
 
 
 
