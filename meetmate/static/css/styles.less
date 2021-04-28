@@ -389,6 +389,10 @@ input:hover{
 }
 
 
+#user-body{
+	overflow: visible;
+}
+
 #user-wrapper{
 	border-radius: 10px;
 }
@@ -412,6 +416,7 @@ input:hover{
 	margin: 0 5rem 5rem 5rem;
 	border-radius: 4px;
 	background-color: @gray-shadow;
+	cursor: pointer;
 }
 
 .menu-title{
@@ -421,13 +426,29 @@ input:hover{
 	font-size: 3rem;
 	font-weight: bold;
 	margin-top: 3rem;
+	position: relative;
 }
+
+.title-underline {    
+	background: none repeat scroll 0 0 transparent;
+	content: "";
+	display: block;
+	height: 2px;
+	left:0;
+	right:0;
+	margin:0 auto;
+	margin-top: 5px;
+	background: @primary-color;
+	transition: width 0.3s ease 0s, center 0.3s ease 0s;
+	width: 0;
+  }
 
 .image-container{
 	flex: 1;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	transition: 1s;
 }
 
 .image-container > img{
