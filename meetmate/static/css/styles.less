@@ -32,7 +32,7 @@ button > a:hover{
 	color: black;
 }
 
-#index-body, #authentication-body{
+#index-body, #authentication-body, #user-body{
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
@@ -75,14 +75,12 @@ path, circle{
 }
 
 
-#sign-in-wrapper, #authentication-wrapper{
+.content-wrapper{
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	flex: 1;
 	flex-direction: row;
-
-	
 }
 
 .login-menu-wrapper{
@@ -195,6 +193,7 @@ input:hover{
 
 #wave-wrapper{
   	width:100%;
+	overflow: hidden;
 }
 
 #wave{
@@ -383,6 +382,50 @@ input:hover{
 #user-list::-webkit-scrollbar-thumb{
 	background-color: @gray-shadow;
 }
+
+.content-title{
+	flex: 0;
+}
+
+.menu-wrapper{
+	flex: 1;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+}
+
+
+.meetings-history-wrapper, .scan-code-wrapper{
+	flex: 1;
+	flex-direction: column;
+	padding: 3rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 2px solid @primary-color;
+	margin: 0 5rem;
+}
+
+.menu-title{
+	width: 100%;
+	color: white;
+	text-align: center;
+	margin-bottom: 3rem;
+	font-size: 3rem;
+	font-weight: bold;
+}
+
+.image-container{
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.image-container > img{
+	width: 400px;
+}
+
 
 @keyframes wave {
 	0% {
