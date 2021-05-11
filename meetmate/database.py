@@ -52,6 +52,76 @@ class Database:
             }
         )
 
+    # Groups
+
+    def new_group(self, name):
+        db_groups = self.db.groups
+        group_id = db_groups.insert_one(
+            {
+                "Name": name,
+            }
+        )
+        return group_id.inserted_id
+
+    def get_group(self, value: str, variable="_id"):
+        db_groups = self.db.groups
+        group = db_groups.find_one({variable: value})
+        return group
+
+    def update_group(self, group_id, variable, value):
+        db_groups = self.db.groups
+        db_groups.update_one(
+            {"_id": group_id},
+            {
+                "$set":{
+                    variable: value
+                }
+            }
+        )
+
+    # Meets
+
+    def new_meet(self):
+        db_meets = self.db.meets
+        meet_id = db_meets.insert_one(
+            {
+                #General
+                "name": None, 
+                "participants": [],
+                "organizer:": None,
+                "start_time": None,
+                "stop_time": None,
+                "localization": None,
+                "description": None,
+                #GPS
+                "longitude": None,
+                "latitude": None,
+                "radius": None,
+                #QR Code
+                "link_id": None,
+                "secret": None,
+                #Checks
+                "checks_count": 0,
+                "checks_interval": 0
+            }
+        )
+        return meet_id.inserted_id
+
+    def get_meet(self, value: str, variable="_id"):
+        db_meets = self.db.meets
+        meet = db_meets.find_one({variable: value})
+        return meet
+
+    def update_meet(self, meet_id, variable, value):
+        db_meets = self.db.meets
+        db_meets.update_one(
+            {"_id": meet_id},
+            {
+                "$set":{
+                    variable: value
+                }
+            }
+        )
 
 def database_init(database, host, port, user, password):
     global db
