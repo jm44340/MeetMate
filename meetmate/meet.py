@@ -164,6 +164,11 @@ class Meet:
         self.update()
 
     @staticmethod
+    def get_by_linkid(link_id):
+        meet_id = database.db.get_meet(link_id, variable="link_id")
+        return Meet(meet_id["_id"])
+
+    @staticmethod
     def create_meet(name, organizer: User, localization, description):
         meet_id = database.db.new_meet()
         meet = Meet(meet_id)
