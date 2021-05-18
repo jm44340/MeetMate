@@ -8,21 +8,6 @@ from enum import Enum
 from bson.objectid import ObjectId
 from User import user
 
-class AuthError(Exception):
-    pass
-
-class ExistError(Exception):
-    pass
-
-class UserType(Enum):
-    USER = "USER"
-    ORGANIZER = "ORGANIZER"
-    ADMINISTRATOR = "ADMINISTRATOR"
-
-class UserStatus(Enum):
-    ACTIVE = "ACTIVE"
-    INACTIVE = "INACTIVE"
-
 class Meet:
     def __init__(self, id):
         if type(id) is str:
@@ -140,15 +125,6 @@ class Meet:
     @radius.setter
     def radius(self, value):
         database.db.update_group(self.__id, "radius", value)
-        self.update()
-
-    @property
-    def link_id(self):
-        return self.__link_id
-
-    @link_id.setter
-    def link_id(self, value):
-        database.db.update_group(self.__id, "link_id", value)
         self.update()
 
     @property
