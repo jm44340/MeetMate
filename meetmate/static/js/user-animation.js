@@ -39,4 +39,12 @@ $(".meetings-history-wrapper").hover(
 
 
 
+$("#logout > button").hover(
+    function() {
+        $("circle").css("fill", "#388037");
+    
+    }, function() {
+        $("circle").css("fill", "#77DD76");
+});
+
 

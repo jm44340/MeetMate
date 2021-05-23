@@ -97,6 +97,16 @@ def logout():
 #def reset_password(): #TODO
     #return redirect(url_for("index")) #TODO
 
+@app.route("/organizer")
+def organizer_panel():
+    if "user" not in session.keys():
+        return redirect(url_for("login"))
+
+    user = User(session["user"])
+    if user.type != UserType.ORGANIZER:
+        return redirect(url_for("login"))
+
+    return render_template("organizer.html")
 
 @app.route("/admin")
 def admin_panel():
@@ -121,6 +131,17 @@ def user_panel():
 
     return render_template("user.html")
 
+
+@app.route("/meetings_history")
+def meetings_history():
+    if "user" not in session.keys():
+        return redirect(url_for("login"))
+
+    user = User(session["user"])
+    if user.type != UserType.USER:
+        return redirect(url_for("login"))
+
+    return render_template("user_history.html")
 
 @app.route("/meet/<meet_id>")
 def meet_panel(meet_id):

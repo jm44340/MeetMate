@@ -31,7 +31,7 @@
       </div>
       
       <div class="menu-wrapper row">
-        <div class="scan-code-wrapper">
+        <a href="/scan_qr" class="scan-code-wrapper">
           <div class="menu-title">
             Skanuj kod
             <div class="title-underline"></div>
@@ -39,9 +39,9 @@
           <div class="image-container">
             <img src=../static/resources/svg/qrcode.svg/>
           </div>
-        </div>
+        </a>
 
-        <div class="meetings-history-wrapper">
+        <a href="/meetings_history" class="meetings-history-wrapper">
           <div class="menu-title">
             Historia spotkań
             <div class="title-underline"></div>
@@ -49,10 +49,14 @@
           <div class="image-container">
             <img src=../static/resources/svg/meeting_history.svg/>
           </div>
-        </div>
+        </a>
       </div>
       
+      <a id="logout" href="/logout">
+        <button type="submit mb-4 mt-4">Wyloguj</button>
+      </a>
 
+     
      
 
     </div>
