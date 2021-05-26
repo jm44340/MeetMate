@@ -6,7 +6,7 @@ import os
 
 from enum import Enum
 from bson.objectid import ObjectId
-from User import user
+from user import User
 
 class Meet:
     def __init__(self, id):
