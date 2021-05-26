@@ -53,12 +53,12 @@ class Database:
         )
 
     # Groups
-
+    
     def new_group(self, name):
         db_groups = self.db.groups
         group_id = db_groups.insert_one(
             {
-                "Name": name,
+                "name": name,
             }
         )
         return group_id.inserted_id
@@ -78,6 +78,11 @@ class Database:
                 }
             }
         )
+
+    def get_group_users(self, group_id):
+        db_users = self.db.users
+        users = db_users.find({"groups": {"$in": [group_id]}})
+        return list(users)
 
     # Meets
 

@@ -1,12 +1,12 @@
 import hashlib
 import base64
-import database
+import Database
 import uuid
 import os
 
 from enum import Enum
 from bson.objectid import ObjectId
-from user import User
+import User
 
 class Meet:
     def __init__(self, id):
@@ -17,7 +17,7 @@ class Meet:
         self.update()
 
     def update(self):
-        meet = database.db.get_meet(self.__id)
+        meet = Database.db.get_meet(self.__id)
         self.__name = meet["name"]
         self.__participants = meet["participants"]
         self.__organizer = meet["organizer"]
@@ -43,7 +43,7 @@ class Meet:
 
     @name.setter
     def name(self, value):
-        database.db.update_meet(self.__id, "name", value)
+        Database.db.update_meet(self.__id, "name", value)
         self.update()
 
     @property
@@ -52,7 +52,7 @@ class Meet:
 
     @participants.setter
     def participants(self, value):
-        database.db.update_meet(self.__id, "participants", value)
+        Database.db.update_meet(self.__id, "participants", value)
         self.update()
 
     @property
@@ -61,7 +61,7 @@ class Meet:
 
     @organizer.setter
     def organizer(self, value):
-        database.db.update_meet(self.__id, "organizer", value)
+        Database.db.update_meet(self.__id, "organizer", value)
         self.update()
 
     @property
@@ -70,7 +70,7 @@ class Meet:
 
     @start_time.setter
     def start_time(self, value):
-        database.db.update_meet(self.__id, "start_time", value)
+        Database.db.update_meet(self.__id, "start_time", value)
         self.update()
 
     @property
@@ -79,7 +79,7 @@ class Meet:
 
     @stop_time.setter
     def stop_time(self, value):
-        database.db.update_meet(self.__id, "stop_time", value)
+        Database.db.update_meet(self.__id, "stop_time", value)
         self.update()
 
     @property
@@ -88,7 +88,7 @@ class Meet:
 
     @localization.setter
     def localization(self, value):
-        database.db.update_meet(self.__id, "localization", value)
+        Database.db.update_meet(self.__id, "localization", value)
         self.update()
 
     @property
@@ -97,7 +97,7 @@ class Meet:
 
     @description.setter
     def description(self, value):
-        database.db.update_meet(self.__id, "description", value)
+        Database.db.update_meet(self.__id, "description", value)
         self.update()
 
     @property
@@ -106,7 +106,7 @@ class Meet:
 
     @longitude.setter
     def longitude(self, value):
-        database.db.update_meet(self.__id, "longitude", value)
+        Database.db.update_meet(self.__id, "longitude", value)
         self.update()
 
     @property
@@ -115,7 +115,7 @@ class Meet:
 
     @latitude.setter
     def latitude(self, value):
-        database.db.update_meet(self.__id, "latitude", value)
+        Database.db.update_meet(self.__id, "latitude", value)
         self.update()
 
     @property
@@ -124,7 +124,7 @@ class Meet:
 
     @radius.setter
     def radius(self, value):
-        database.db.update_meet(self.__id, "radius", value)
+        Database.db.update_meet(self.__id, "radius", value)
         self.update()
 
     @property
@@ -133,7 +133,7 @@ class Meet:
 
     @link_id.setter
     def link_id(self, value):
-        database.db.update_meet(self.__id, "link_id", value)
+        Database.db.update_meet(self.__id, "link_id", value)
         self.update()
 
     @property
@@ -142,7 +142,7 @@ class Meet:
 
     @secret.setter
     def secret(self, value):
-        database.db.update_meet(self.__id, "secret", value)
+        Database.db.update_meet(self.__id, "secret", value)
         self.update()
 
     @property
@@ -151,7 +151,7 @@ class Meet:
 
     @checks_count.setter
     def checks_count(self, value):
-        database.db.update_meet(self.__id, "checks_count", value)
+        Database.db.update_meet(self.__id, "checks_count", value)
         self.update()
 
     @property
@@ -160,17 +160,17 @@ class Meet:
 
     @checks_interval.setter
     def checks_interval(self, value):
-        database.db.update_meet(self.__id, "checks_interval", value)
+        Database.db.update_meet(self.__id, "checks_interval", value)
         self.update()
 
     @staticmethod
     def get_by_linkid(link_id):
-        meet_id = database.db.get_meet(link_id, variable="link_id")
+        meet_id = Database.db.get_meet(link_id, variable="link_id")
         return Meet(meet_id["_id"])
 
     @staticmethod
     def create_meet(name, organizer: User, localization, description):
-        meet_id = database.db.new_meet()
+        meet_id = Database.db.new_meet()
         meet = Meet(meet_id)
 
         meet.name = name

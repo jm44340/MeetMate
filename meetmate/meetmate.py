@@ -1,18 +1,18 @@
 from random import randint
 from flask import Flask, render_template, redirect, url_for, session, request, g
-from user import User, UserType
 
-import database
-import setting
-import user
+import Database
+import Setting
+import User
+import Group
 import os
-import sms_provider
-import mail_provider
+import SmsProvider
+import MailProvider
 
-setting.setting_init()
-setting = setting.setting
+Setting.setting_init()
+setting = Setting.setting
 
-database.database_init(
+Database.database_init(
     setting["db_name"],
     setting["db_host"],
     setting["db_port"],
@@ -23,6 +23,14 @@ database.database_init(
 app = Flask(__name__)
 app.secret_key = os.urandom(16)
 
+@app.route("/test")
+def test():
+    group = Group.Group.get_by_name("Testowa")
+    user = User.User("608491b5dc5221509036541d")
+    user.del_group(group)
+    users = group.get_users()
+    return str(len(users))
+
 @app.route("/")
 def index():
     return redirect(url_for("login"))
@@ -30,22 +38,22 @@ def index():
 @app.route("/login", methods=["GET", "POST"]) #TODO: Do this by AJAX api calls
 def login():
     if "user" in session:
-        user = User(session["user"])
-        if user.type == UserType.ADMINISTRATOR:
+        user = User.User(session["user"])
+        if user.type == User.UserType.ADMINISTRATOR:
             return redirect(url_for("admin_panel"))
-        elif user.type == UserType.ORGANIZER:
+        elif user.type == User.UserType.ORGANIZER:
             return redirect(url_for("organizer_panel"))
         else:
             return redirect(url_for("user_panel"))
 
     if request.method == "POST":
         try:
-            user = User.auth(request.form["email"], request.form["password"])
+            user = User.User.auth(request.form["email"], request.form["password"])
         except:
             return redirect(url_for("index")) # invalid post data, email or password
 
         token = str(randint(0,999999)).zfill(6)
-        sms_provider.send_2fa(user.phone_number, token)
+        SmsProvider.send_2fa(user.phone_number, token)
         session["auth_id"] = str(user.id)
         session["auth_token"] = token
         return redirect(url_for("auth"))
@@ -56,23 +64,23 @@ def login():
 @app.route("/auth", methods=["GET", "POST"])
 def auth():
     if "user" in session:
-        user = User(session["user"])
-        if user.type == UserType.ADMINISTRATOR:
+        user = User.User(session["user"])
+        if user.type == User.UserType.ADMINISTRATOR:
             return redirect(url_for("admin_panel"))
-        elif user.type == UserType.ORGANIZER:
+        elif user.type == User.UserType.ORGANIZER:
             return redirect(url_for("organizer_panel"))
         else:
             return redirect(url_for("user_panel"))
 
     if request.method == "POST":
         if request.form["password"] == session["auth_token"]:
-            user = User(session["auth_id"])
+            user = User.User(session["auth_id"])
             session["user"] = str(user.id)
             session.pop("auth_id", None)
             session.pop("auth_token", None)
-            if user.type == UserType.ADMINISTRATOR:
+            if user.type == User.UserType.ADMINISTRATOR:
                 return redirect(url_for("admin_panel"))
-            elif user.type == UserType.ORGANIZER:
+            elif user.type == User.UserType.ORGANIZER:
                 return redirect(url_for("organizer_panel"))
             else:
                 return redirect(url_for("user_panel"))
@@ -102,8 +110,8 @@ def organizer_panel():
     if "user" not in session.keys():
         return redirect(url_for("login"))
 
-    user = User(session["user"])
-    if user.type != UserType.ORGANIZER:
+    user = User.User(session["user"])
+    if user.type != User.UserType.ORGANIZER:
         return redirect(url_for("login"))
 
     return render_template("organizer.html")
@@ -113,8 +121,8 @@ def admin_panel():
     if "user" not in session.keys():
         return redirect(url_for("login"))
 
-    user = User(session["user"])
-    if user.type != UserType.ADMINISTRATOR:
+    user = User.User(session["user"])
+    if user.type != User.UserType.ADMINISTRATOR:
         return redirect(url_for("login"))
 
     return render_template("admin.html")
@@ -125,8 +133,8 @@ def user_panel():
     if "user" not in session.keys():
         return redirect(url_for("login"))
 
-    user = User(session["user"])
-    if user.type != UserType.USER:
+    user = User.User(session["user"])
+    if user.type != User.UserType.USER:
         return redirect(url_for("login"))
 
     return render_template("user.html")
@@ -137,8 +145,8 @@ def meetings_history():
     if "user" not in session.keys():
         return redirect(url_for("login"))
 
-    user = User(session["user"])
-    if user.type != UserType.USER:
+    user = User.User(session["user"])
+    if user.type != User.UserType.USER:
         return redirect(url_for("login"))
 
     return render_template("user_history.html")
@@ -151,8 +159,8 @@ def meet_panel(meet_id):
 @app.route("/test_register")
 def test_register():
     try:
-        User.add_user("admin@admin.com", "123456", "000000000", "Adam", "Małysz")
-    except user.ExistError:
+        User.User.add_user("admin@admin.com", "123456", "000000000", "Adam", "Małysz")
+    except User.ExistError:
         return("User already exist")
 
     return redirect(url_for("index"))
