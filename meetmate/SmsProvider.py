@@ -1,12 +1,12 @@
-import setting
+import Setting
 import requests
 
 def send_sms(recipient, message):
-	url = setting.setting["sms_host"]
+	url = Setting.setting["sms_host"]
 	data = {
-		"login": setting.setting["sms_user"],
-		"pass": setting.setting["sms_pass"],
-		"msg_type": setting.setting["sms_type"],
+		"login": Setting.setting["sms_user"],
+		"pass": Setting.setting["sms_pass"],
+		"msg_type": Setting.setting["sms_type"],
 		"recipient": recipient,
 		"message": message,
 		"sandbox": "1"  # TODO set to 0 to disable sandbox

@@ -1,10 +1,11 @@
 import hashlib
 import base64
-import database
+import Database
 import os
 
 from enum import Enum
 from bson.objectid import ObjectId
+import Group
 
 class AuthError(Exception):
     pass
@@ -30,7 +31,7 @@ class User:
         self.update()
 
     def update(self):
-        user = database.db.get_user(self.__id)
+        user = Database.db.get_user(self.__id)
         self.__email = user["email"]
         self.__salt = user["salt"]
         self.__password = user["password"]
@@ -40,6 +41,19 @@ class User:
         self.__groups = user["groups"]
         self.__type = user["type"]
         self.__status = user["status"]
+
+    def add_group(self, group: Group.Group):
+        groups = self.__groups
+        groups.append(group.id)
+        Database.db.update_user(self.__id, "groups", groups)
+        self.update()
+
+    def del_group(self, group: Group.Group):
+        groups = self.__groups
+        if group.id in groups:
+            groups.remove(group.id)
+        Database.db.update_user(self.__id, "groups", groups)
+        self.update()
 
     @property
     def id(self):
@@ -51,7 +65,7 @@ class User:
 
     @email.setter
     def email(self, value):
-        database.db.update_user(self.__id, "email", value)
+        Database.db.update_user(self.__id, "email", value)
         self.update()
 
     @property
@@ -60,7 +74,7 @@ class User:
 
     @salt.setter
     def salt(self, value):
-        database.db.update_user(self.__id, "salt", value)
+        Database.db.update_user(self.__id, "salt", value)
         self.update()
 
     @property
@@ -71,7 +85,7 @@ class User:
     def password(self, value):
         password = self.salt + value
         hash_string = hashlib.sha512(password.encode()).hexdigest()
-        database.db.update_user(self.__id, "password", hash_string)
+        Database.db.update_user(self.__id, "password", hash_string)
         self.update()
 
     @property
@@ -80,7 +94,7 @@ class User:
 
     @phone_number.setter
     def phone_number(self, value):
-        database.db.update_user(self.__id, "phone_number", value)
+        Database.db.update_user(self.__id, "phone_number", value)
         self.update()
 
     @property
@@ -89,7 +103,7 @@ class User:
 
     @first_name.setter
     def first_name(self, value):
-        database.db.update_user(self.__id, "first_name", value)
+        Database.db.update_user(self.__id, "first_name", value)
         self.update()
 
     @property
@@ -98,12 +112,12 @@ class User:
 
     @last_name.setter
     def last_name(self, value):
-        database.db.update_user(self.__id, "last_name", value)
+        Database.db.update_user(self.__id, "last_name", value)
         self.update()
 
     @property
     def groups(self):
-        return self.__groups
+        return [Group.Group(group["_id"]) for group in self.__groups]
 
     @property
     def type(self):
@@ -111,7 +125,7 @@ class User:
 
     @type.setter
     def type(self, value: UserType):
-        database.db.update_user(self.__id, "type", value.value)
+        Database.db.update_user(self.__id, "type", value.value)
         self.update()
 
     @property
@@ -120,7 +134,7 @@ class User:
 
     @status.setter
     def status(self, value: UserStatus):
-        database.db.update_user(self.__id, "status", value.value)
+        Database.db.update_user(self.__id, "status", value.value)
         self.update()
 
     def check_password(self, password):
@@ -130,11 +144,11 @@ class User:
 
     @staticmethod
     def add_user(email, password, phone_number, first_name, last_name):
-        exist = database.db.get_user(email, "email")
+        exist = Database.db.get_user(email, "email")
         if exist is not None:
             raise ExistError
 
-        user_id = database.db.new_user()
+        user_id = Database.db.new_user()
         user = User(user_id)
         user.email = email
         user.salt = base64.b64encode(os.urandom(16)).decode()
@@ -149,7 +163,7 @@ class User:
 
     @staticmethod
     def auth(email, password):
-        user_data = database.db.get_user(email, variable="email")
+        user_data = Database.db.get_user(email, variable="email")
         if user_data is None:
             raise AuthError
         user = User(user_data["_id"])
