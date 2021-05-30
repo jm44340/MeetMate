@@ -2,6 +2,7 @@ from random import randint
 from flask import Flask, render_template, redirect, url_for, session, request, g
 
 import Database
+import Meet
 import Setting
 import User
 import Group
@@ -28,7 +29,7 @@ def test():
     group = Group.Group.get_by_name("Testowa")
     user = User.User("608491b5dc5221509036541d")
     user.del_group(group)
-    users = group.get_users()
+    users = group.get_all_users()
     return str(len(users))
 
 @app.route("/")
@@ -116,6 +117,15 @@ def organizer_panel():
 
     return render_template("organizer.html")
 
+@app.context_processor
+def organizer_panel():
+    if "user" in session:
+        user = User.User(session["user"])
+        meetings = Meet.Meet.get_by_organizer(user)
+        return dict(meetings=meetings)
+    return dict(meetings=[])
+
+
 @app.route("/admin")
 def admin_panel():
     if "user" not in session.keys():
@@ -126,6 +136,12 @@ def admin_panel():
         return redirect(url_for("login"))
 
     return render_template("admin.html")
+
+
+@app.context_processor
+def admin_panel():
+    users = User.User.get_all_users()
+    return dict(users=users)
 
 
 @app.route("/user")
@@ -150,6 +166,15 @@ def meetings_history():
         return redirect(url_for("login"))
 
     return render_template("user_history.html")
+
+@app.context_processor
+def meetings_history():
+    if "user" in session:
+        user = User.User(session["user"])
+        meetings = Meet.Meet.get_by_user(user)
+        return dict(meetings=meetings)
+    return dict(meetings=[])
+
 
 @app.route("/meet/<meet_id>")
 def meet_panel(meet_id):

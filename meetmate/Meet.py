@@ -8,6 +8,7 @@ from enum import Enum
 from bson.objectid import ObjectId
 import User
 
+
 class Meet:
     def __init__(self, id):
         if type(id) is str:
@@ -167,6 +168,16 @@ class Meet:
     def get_by_linkid(link_id):
         meet_id = Database.db.get_meet(link_id, variable="link_id")
         return Meet(meet_id["_id"])
+
+    @staticmethod
+    def get_by_organizer(user: User.User):
+        meetings = Database.db.get_meetings(user.id, variable="organizer")
+        return [Meet(meet["_id"]) for meet in meetings]
+
+    @staticmethod
+    def get_by_user(user: User.User):
+        meetings = Database.db.get_meetings(user.id, variable="user")
+        return [Meet(meet["_id"]) for meet in meetings]
 
     @staticmethod
     def create_meet(name, organizer: User, localization, description):
