@@ -24,13 +24,19 @@
 
     <div id="orazniger-wrapper" class="container-sm">
 
-    
-
       <div id="title" class="mt-5 mb-5">
-        Witaj TODO
+        Panel organizatora
       </div>
       
-      
+      <form class="form-inline d-flex flex-row" id="searchbox-form">
+        <input id="searchBar" class="text-center form-control flex-grow-1" onkeyup="searchForUser()" type="text" placeholder="Wyszukaj spotkanie" aria-label="Search" >
+      </form>
+
+      <ul id="user-list" class="mt-3 mb-5">
+        {% for meet in meetings %}
+            <li><a>{{ meet.name }}</a></li>
+        {% endfor %}
+      </ul>
 
      
 

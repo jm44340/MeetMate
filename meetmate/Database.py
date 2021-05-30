@@ -41,6 +41,11 @@ class Database:
         user = db_users.find_one({variable: value})
         return user
 
+    def get_all_users(self):
+        db_users = self.db.users
+        users = db_users.find({})
+        return users
+
     def update_user(self, user_id, variable, value):
         db_users = self.db.users
         db_users.update_one(
@@ -116,6 +121,11 @@ class Database:
         db_meets = self.db.meets
         meet = db_meets.find_one({variable: value})
         return meet
+
+    def get_meetings(self, value: str, variable="_id"):
+        db_meets = self.db.meets
+        meetings = db_meets.find({variable: value})
+        return meetings
 
     def update_meet(self, meet_id, variable, value):
         db_meets = self.db.meets

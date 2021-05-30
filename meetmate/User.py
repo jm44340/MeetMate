@@ -143,6 +143,11 @@ class User:
         return hash_string == self.password
 
     @staticmethod
+    def get_all_users():
+        users = Database.db.get_all_users()
+        return [User(user["_id"]) for user in users]
+
+    @staticmethod
     def add_user(email, password, phone_number, first_name, last_name):
         exist = Database.db.get_user(email, "email")
         if exist is not None:
