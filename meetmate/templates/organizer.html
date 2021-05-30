@@ -20,23 +20,48 @@
     <title>MeetMate</title>
   </head>
   
-  <body id="organizer-body">
+  <body id="user-body">
 
-    <div id="orazniger-wrapper" class="container-sm">
+    <div id="user-wrapper" class="content-wrapper container-md flex-column">
 
     
 
-      <div id="title" class="mt-5 mb-5">
+      <div id="title" class="content-title">
         Witaj TODO
       </div>
       
-      
+      <div class="menu-wrapper row">
+        <a href="/qr_test" class="scan-code-wrapper">
+          <div class="menu-title">
+            Skanuj kod
+            <div class="title-underline"></div>
+          </div>
+          <div class="image-container">
+            <img src=../static/resources/svg/qrcode.svg/>
+          </div>
+        </a>
 
+        <a href="/meetings_history" class="meetings-history-wrapper">
+          <div class="menu-title">
+            Historia spotkań
+            <div class="title-underline"></div>
+          </div>
+          <div class="image-container">
+            <img src=../static/resources/svg/meeting_history.svg/>
+          </div>
+        </a>
+      </div>
+      
+      <a id="logout" href="/logout">
+        <button type="submit mb-4 mt-4">Wyloguj</button>
+      </a>
+
+     
      
 
     </div>
 
-    <script src="../static/js/search_bar.js"></script>
+    <script src="../static/js/user-animation.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
   </body>
 </html>

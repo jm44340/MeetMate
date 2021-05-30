@@ -157,6 +157,11 @@ def test_register():
 
     return redirect(url_for("index"))
 
+@app.route("/qr_test")
+def test_register():
+
+    return render_template("qr_test.html")
+
 
 
 
