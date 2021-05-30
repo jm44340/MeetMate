@@ -19,7 +19,7 @@ class Meet:
     def update(self):
         meet = Database.db.get_meet(self.__id)
         self.__name = meet["name"]
-        self.__participants = meet["participants"]
+        self.__users = meet["users"]
         self.__organizer = meet["organizer"]
         self.__start_time = meet["start_time"]
         self.__stop_time = meet["stop_time"]
@@ -47,12 +47,12 @@ class Meet:
         self.update()
 
     @property
-    def participants(self):
-        return self.__participants
+    def users(self):
+        return self.__users
 
-    @participants.setter
-    def participants(self, value):
-        Database.db.update_meet(self.__id, "participants", value)
+    @users.setter
+    def users(self, value):
+        Database.db.update_meet(self.__id, "users", value)
         self.update()
 
     @property
@@ -174,7 +174,7 @@ class Meet:
         meet = Meet(meet_id)
 
         meet.name = name
-        meet.participants = []
+        meet.users = []
         meet.organizer = organizer.id
         meet.start_time = 0
         meet.stop_time = 0
