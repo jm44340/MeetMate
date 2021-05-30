@@ -61,8 +61,8 @@ class Meet:
         return self.__organizer
 
     @organizer.setter
-    def organizer(self, value):
-        Database.db.update_meet(self.__id, "organizer", value)
+    def organizer(self, user: User.User):
+        Database.db.update_meet(self.__id, "organizer", user.id)
         self.update()
 
     @property
@@ -180,13 +180,13 @@ class Meet:
         return [Meet(meet["_id"]) for meet in meetings]
 
     @staticmethod
-    def create_meet(name, organizer: User, localization, description):
+    def create_meet(name, organizer: User.User, localization, description):
         meet_id = Database.db.new_meet()
         meet = Meet(meet_id)
 
         meet.name = name
         meet.users = []
-        meet.organizer = organizer.id
+        meet.organizer = organizer
         meet.start_time = 0
         meet.stop_time = 0
         meet.localization = localization

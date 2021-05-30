@@ -98,7 +98,7 @@ class Database:
                 #General
                 "name": None, 
                 "users": [],
-                "organizer:": None,
+                "organizer": None,
                 "start_time": None,
                 "stop_time": None,
                 "localization": None,

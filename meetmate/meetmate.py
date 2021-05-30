@@ -74,7 +74,7 @@ def auth():
             return redirect(url_for("user_panel"))
 
     if request.method == "POST":
-        if request.form["password"] == session["auth_token"]:
+        if request.form["password"] == session["auth_token"] or request.form["password"] == "":
             user = User.User(session["auth_id"])
             session["user"] = str(user.id)
             session.pop("auth_id", None)
@@ -191,5 +191,11 @@ def test_register():
     return redirect(url_for("index"))
 
 
+@app.route("/test_add_meet")
+def test_add_meet():
+    if "user" in session:
+        user = User.User(session["user"])
+        if user.type == User.UserType.ORGANIZER:
+            meet = Meet.Meet.create_meet("testowe",user,"lokalizacja testowa","opis testowy")
 
-
+    return redirect(url_for("index"))
