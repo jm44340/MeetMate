@@ -104,42 +104,11 @@
             <input id="searchBar" class="text-center form-control flex-grow-1" onkeyup="searchForUser()" type="text" placeholder="Wyszukaj spotkanie" aria-label="Search" >
         </form>
 
-        <ul id="user-list" class="mt-3 mb-5">
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Krystian</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Dummy</a></li>
-            <li><a href="#">Test</a></li>
-        </ul>
+      <ul id="user-list" class="mt-3 mb-5">
+        {% for meet in meetings %}
+            <li><a>{{ meet.name }}</a></li>
+        {% endfor %}
+      </ul>
 
 
     </div>
