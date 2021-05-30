@@ -103,6 +103,7 @@ class Database:
                 "stop_time": None,
                 "localization": None,
                 "description": None,
+                "status": None,
                 #GPS
                 "longitude": None,
                 "latitude": None,
@@ -125,7 +126,7 @@ class Database:
     def get_meetings(self, value: str, variable="_id"):
         db_meets = self.db.meets
         meetings = db_meets.find({variable: value})
-        return meetings
+        return list(meetings)
 
     def update_meet(self, meet_id, variable, value):
         db_meets = self.db.meets
