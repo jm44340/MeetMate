@@ -111,13 +111,22 @@ def logout():
 def organizer_panel():
     if "user" not in session.keys():
         return redirect(url_for("login"))
-
     user = User.User(session["user"])
     if user.type != User.UserType.ORGANIZER:
         return redirect(url_for("login"))
+    return render_template("organizer.html")
 
+
+@app.route("/organizer_meetings")
+def organizer_meetings():
+    if "user" not in session.keys():
+        return redirect(url_for("login"))
+    user = User.User(session["user"])
+    if user.type != User.UserType.ORGANIZER:
+        return redirect(url_for("login"))
     meetings = Meet.Meet.get_by_organizer(user)
-    return render_template("organizer.html", meetings=meetings)
+    return render_template("organizer_meetings.html", meetings=meetings)
+
 
 @app.route("/admin")
 def admin_panel():
@@ -165,9 +174,6 @@ def meetings_history():
 def new_meeting():
     return render_template("new_meeting.html")
 
-@app.route("/organizer_meetings")
-def organizer_meetings():
-    return render_template("organizer_meetings.html")
 
 @app.route("/meet/<meet_id>")
 def meet_panel(meet_id):
