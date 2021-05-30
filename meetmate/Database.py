@@ -41,6 +41,11 @@ class Database:
         user = db_users.find_one({variable: value})
         return user
 
+    def get_all_users(self):
+        db_users = self.db.users
+        users = db_users.find({})
+        return users
+
     def update_user(self, user_id, variable, value):
         db_users = self.db.users
         db_users.update_one(
@@ -92,12 +97,13 @@ class Database:
             {
                 #General
                 "name": None, 
-                "participants": [],
-                "organizer:": None,
+                "users": [],
+                "organizer": None,
                 "start_time": None,
                 "stop_time": None,
                 "localization": None,
                 "description": None,
+                "status": None,
                 #GPS
                 "longitude": None,
                 "latitude": None,
@@ -117,10 +123,44 @@ class Database:
         meet = db_meets.find_one({variable: value})
         return meet
 
+    def get_meetings(self, value: str, variable="_id"):
+        db_meets = self.db.meets
+        meetings = db_meets.find({variable: value})
+        return list(meetings)
+
     def update_meet(self, meet_id, variable, value):
         db_meets = self.db.meets
         db_meets.update_one(
             {"_id": meet_id},
+            {
+                "$set":{
+                    variable: value
+                }
+            }
+        )
+
+    # Presence
+
+    def new_presence(self):
+        db_presence = self.db.presence
+        presence_id = db_presence.insert_one(
+            {
+                "time": None,
+                "meeting": None,
+                "user": None
+            }
+        )
+        return presence_id.inserted_id
+
+    def get_presence(self, value: str, variable="_id"):
+        db_presence = self.db.presence
+        presence = db_presence.find_one({variable: value})
+        return presence
+
+    def update_presence(self, presence_id, variable, value):
+        db_presence = self.db.presence
+        db_presence.update_one(
+            {"_id": presence_id},
             {
                 "$set":{
                     variable: value

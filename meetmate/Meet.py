@@ -8,6 +8,11 @@ from enum import Enum
 from bson.objectid import ObjectId
 import User
 
+class MeetStatus(Enum):
+    INACTIVE = "INACTIVE"
+    ACTIVE = "ACTIVE"
+    ENDED = "ENDED"
+
 class Meet:
     def __init__(self, id):
         if type(id) is str:
@@ -19,12 +24,13 @@ class Meet:
     def update(self):
         meet = Database.db.get_meet(self.__id)
         self.__name = meet["name"]
-        self.__participants = meet["participants"]
+        self.__users = meet["users"]
         self.__organizer = meet["organizer"]
         self.__start_time = meet["start_time"]
         self.__stop_time = meet["stop_time"]
         self.__localization = meet["localization"]
         self.__description = meet["description"]
+        self.__status = meet["status"]
         self.__longitude = meet["longitude"]
         self.__latitude = meet["latitude"]
         self.__radius = meet["radius"]
@@ -47,12 +53,12 @@ class Meet:
         self.update()
 
     @property
-    def participants(self):
-        return self.__participants
+    def users(self):
+        return self.__users
 
-    @participants.setter
-    def participants(self, value):
-        Database.db.update_meet(self.__id, "participants", value)
+    @users.setter
+    def users(self, value):
+        Database.db.update_meet(self.__id, "users", value)
         self.update()
 
     @property
@@ -60,8 +66,8 @@ class Meet:
         return self.__organizer
 
     @organizer.setter
-    def organizer(self, value):
-        Database.db.update_meet(self.__id, "organizer", value)
+    def organizer(self, user: User.User):
+        Database.db.update_meet(self.__id, "organizer", user.id)
         self.update()
 
     @property
@@ -98,6 +104,15 @@ class Meet:
     @description.setter
     def description(self, value):
         Database.db.update_meet(self.__id, "description", value)
+        self.update()
+
+    @property
+    def status(self):
+        return MeetStatus[self.__status]
+
+    @status.setter
+    def status(self, value: MeetStatus):
+        Database.db.update_meet(self.__id, "status", value.value)
         self.update()
 
     @property
@@ -169,21 +184,32 @@ class Meet:
         return Meet(meet_id["_id"])
 
     @staticmethod
-    def create_meet(name, organizer: User, localization, description):
+    def get_by_organizer(user: User.User):
+        meetings = Database.db.get_meetings(user.id, variable="organizer")
+        return [Meet(meet["_id"]) for meet in meetings]
+
+    @staticmethod
+    def get_by_user(user: User.User):
+        meetings = Database.db.get_meetings(user.id, variable="user")
+        return [Meet(meet["_id"]) for meet in meetings]
+
+    @staticmethod
+    def create_meet(name, organizer: User.User, localization, description):
         meet_id = Database.db.new_meet()
         meet = Meet(meet_id)
 
         meet.name = name
-        meet.participants = []
-        meet.organizer = organizer.id
+        meet.users = []
+        meet.organizer = organizer
         meet.start_time = 0
         meet.stop_time = 0
         meet.localization = localization
         meet.description = description
+        meet.status = MeetStatus.INACTIVE
         meet.longitude = 0.0
         meet.latitude = 0.0
         meet.radius = 300
-        meet.link_id = str(uuid.uuid4())
+        meet.link_id = base64.b64encode(os.urandom(9))
         meet.secret = str(uuid.uuid4())
         meet.checks_count = 0
         meet.checks_interval = 0

@@ -108,40 +108,9 @@
       </form>
 
       <ul id="user-list" class="mt-3 mb-5">
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Krystian</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Dummy</a></li>
-        <li><a href="#">Test</a></li>
+        {% for user in users %}
+            <li><a>{{ user.email }}</a></li>
+        {% endfor %}
       </ul>
       
 

