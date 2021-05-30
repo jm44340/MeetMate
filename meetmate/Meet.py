@@ -8,6 +8,10 @@ from enum import Enum
 from bson.objectid import ObjectId
 import User
 
+class MeetStatus(Enum):
+    INACTIVE = "INACTIVE"
+    ACTIVE = "ACTIVE"
+    ENDED = "ENDED"
 
 class Meet:
     def __init__(self, id):
@@ -26,6 +30,7 @@ class Meet:
         self.__stop_time = meet["stop_time"]
         self.__localization = meet["localization"]
         self.__description = meet["description"]
+        self.__status = meet["status"]
         self.__longitude = meet["longitude"]
         self.__latitude = meet["latitude"]
         self.__radius = meet["radius"]
@@ -99,6 +104,15 @@ class Meet:
     @description.setter
     def description(self, value):
         Database.db.update_meet(self.__id, "description", value)
+        self.update()
+
+    @property
+    def status(self):
+        return MeetStatus[self.__status]
+
+    @status.setter
+    def status(self, value: MeetStatus):
+        Database.db.update_meet(self.__id, "status", value.value)
         self.update()
 
     @property
@@ -191,6 +205,7 @@ class Meet:
         meet.stop_time = 0
         meet.localization = localization
         meet.description = description
+        meet.status = MeetStatus.INACTIVE
         meet.longitude = 0.0
         meet.latitude = 0.0
         meet.radius = 300
