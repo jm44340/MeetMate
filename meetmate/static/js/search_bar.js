@@ -1,4 +1,7 @@
 
+
+
+
 function searchForUser(){
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById('searchBar');

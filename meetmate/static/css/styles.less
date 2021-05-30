@@ -141,7 +141,9 @@ input:hover{
 }
 
 
-.login-menu-wrapper > button, #logout > button{
+.login-menu-wrapper > button, 
+#logout > button,
+#newGroup > button{
 	background-color: @primary-color;
 	border: none;
 	padding: 4px;
@@ -156,7 +158,9 @@ input:hover{
 	transition: 0.5s;
 }
 
-.login-menu-wrapper > button:hover, #logout > button{
+.login-menu-wrapper > button:hover,
+ #logout > button
+ #newGroup > button{
 	background-color: @primary-darker;
 }
 
@@ -165,6 +169,10 @@ input:hover{
 .login-menu-wrapper  > button:focus, 
 .login-menu-wrapper  > button:active:focus
 .login-menu-wrapper  > button,
+#newGroup > button:active,
+#newGroup > button:focus,
+#newGroup > button:active:focus,
+#newGroup > button,
 #logout > button:active,
 #logout > button:focus,
 #logout > button:active:focus,
@@ -463,7 +471,8 @@ input:hover{
 }
 
 
-#logout{
+#logout,
+#newGroup{
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -472,13 +481,44 @@ input:hover{
 	text-decoration: none;
 }
 
-#logout > button{
+#logout > button,
+#newGroup > button{
 	padding:1rem;
 }
 
-#logout > button:hover{
+#logout > button:hover,
+#newGroup > button:hover{
 	background-color: @primary-darker;
 }
+
+
+#qrcode-wrapper{
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#qrcode{
+	width: 100vmin;
+	height: 100vmin;
+	box-sizing: border-box;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#qrcode > img{
+	width: 90vmin;
+	height: 90vmin;
+	box-sizing: border-box;
+	border: 1rem solid @gray;
+	outline: 5px solid @primary-color;
+}
+
+
 
 @keyframes wave {
 	0% {

@@ -31,19 +31,19 @@
       </div>
       
       <div class="menu-wrapper row">
-        <a href="/qr_test" class="scan-code-wrapper">
+        <a href="/new_meeting" class="scan-code-wrapper">
           <div class="menu-title">
-            Skanuj kod
+            Nowe spotkanie
             <div class="title-underline"></div>
           </div>
           <div class="image-container">
-            <img src=../static/resources/svg/qrcode.svg/>
+            <img src=../static/resources/svg/meeting.svg/>
           </div>
         </a>
 
-        <a href="/meetings_history" class="meetings-history-wrapper">
+        <a href="/organizer_meetings" class="meetings-history-wrapper">
           <div class="menu-title">
-            Historia spotkań
+            Spotkania
             <div class="title-underline"></div>
           </div>
           <div class="image-container">
@@ -52,11 +52,20 @@
         </a>
       </div>
       
-      <a id="logout" href="/logout">
-        <button type="submit mb-4 mt-4">Wyloguj</button>
-      </a>
 
-     
+      <div class="button-wrapper">
+
+        <div class="row">
+
+          <a class="col" id="newGroup" href="/new_group">
+            <button type="submit mb-4 mt-4">Dodaj grupę</button>
+          </a>
+
+          <a class="col" id="logout" href="/logout">
+            <button type="submit mb-4 mt-4">Wyloguj</button>
+          </a>
+      </div>
+      </div>
      
 
     </div>

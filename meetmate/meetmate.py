@@ -139,6 +139,10 @@ def user_panel():
 
     return render_template("user.html")
 
+@app.route("/new_group")
+def new_group():
+    return render_template("new_group.html")
+
 
 @app.route("/meetings_history")
 def meetings_history():
@@ -150,6 +154,15 @@ def meetings_history():
         return redirect(url_for("login"))
 
     return render_template("user_history.html")
+
+
+@app.route("/new_meeting")
+def new_meeting():
+    return render_template("new_meeting.html")
+
+@app.route("/organizer_meetings")
+def organizer_meetings():
+    return render_template("organizer_meetings.html")
 
 @app.route("/meet/<meet_id>")
 def meet_panel(meet_id):
@@ -166,7 +179,7 @@ def test_register():
     return redirect(url_for("index"))
 
 @app.route("/qr_test")
-def test_register():
+def qr_test():
 
     return render_template("qr_test.html")
 
