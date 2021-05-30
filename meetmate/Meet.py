@@ -209,7 +209,7 @@ class Meet:
         meet.longitude = 0.0
         meet.latitude = 0.0
         meet.radius = 300
-        meet.link_id = str(uuid.uuid4())
+        meet.link_id = base64.b64encode(os.urandom(9))
         meet.secret = str(uuid.uuid4())
         meet.checks_count = 0
         meet.checks_interval = 0
