@@ -115,16 +115,8 @@ def organizer_panel():
     if user.type != User.UserType.ORGANIZER:
         return redirect(url_for("login"))
 
-    return render_template("organizer.html")
-
-@app.context_processor
-def organizer_panel():
-    if "user" in session:
-        user = User.User(session["user"])
-        meetings = Meet.Meet.get_by_organizer(user)
-        return dict(meetings=meetings)
-    return dict(meetings=[])
-
+    meetings = Meet.Meet.get_by_organizer(user)
+    return render_template("organizer.html", meetings=meetings)
 
 @app.route("/admin")
 def admin_panel():
@@ -135,14 +127,8 @@ def admin_panel():
     if user.type != User.UserType.ADMINISTRATOR:
         return redirect(url_for("login"))
 
-    return render_template("admin.html")
-
-
-@app.context_processor
-def admin_panel():
     users = User.User.get_all_users()
-    return dict(users=users)
-
+    return render_template("admin.html", users=users)
 
 @app.route("/user")
 def user_panel():
@@ -165,15 +151,8 @@ def meetings_history():
     if user.type != User.UserType.USER:
         return redirect(url_for("login"))
 
-    return render_template("user_history.html")
-
-@app.context_processor
-def meetings_history():
-    if "user" in session:
-        user = User.User(session["user"])
-        meetings = Meet.Meet.get_by_user(user)
-        return dict(meetings=meetings)
-    return dict(meetings=[])
+    meetings = Meet.Meet.get_by_user(user)
+    return render_template("user_history.html", meetings=meetings)
 
 
 @app.route("/meet/<meet_id>")
