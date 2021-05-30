@@ -15,6 +15,7 @@
     "mail_port": 2525,
     "mail_user": "",
     "mail_pass": "",
-    "mail_sender": "meetmate@meetmate.com"
+    "mail_sender": "meetmate@meetmate.com",
 
+    "qr_time": 15
 }

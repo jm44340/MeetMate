@@ -6,6 +6,7 @@ import Meet
 import Setting
 import User
 import Group
+import Presence
 import os
 import SmsProvider
 import MailProvider
@@ -23,6 +24,7 @@ Database.database_init(
 
 app = Flask(__name__)
 app.secret_key = os.urandom(16)
+
 
 @app.route("/test")
 def test():
@@ -170,8 +172,44 @@ def organizer_meetings():
     return render_template("organizer_meetings.html")
 
 @app.route("/meet/<meet_id>")
-def meet_panel(meet_id):
-    return str(meet_id)
+def meet_qr(meet_id):
+    if "user" not in session.keys():
+        return redirect(url_for("login"))
+
+    user = User.User(session["user"])
+    if user.type != User.UserType.ORGANIZER:
+        return redirect(url_for("login"))
+
+    try:
+        meet = Meet.Meet.get_by_linkid(meet_id)
+    except Meet.ExistError:
+        return redirect("https://http.cat/404")
+    
+    qr_data = meet.get_qr_data()
+    return render_template("qr.html", qr_data=qr_data, qr_time=setting["qr_time"])
+
+@app.route("/meet/<meet_id>/<qr_hash>")
+def meet_qr_check(meet_id, qr_hash):
+    if "user" not in session.keys():
+        return redirect(url_for("login"))
+
+    user = User.User(session["user"])
+    if user.type != User.UserType.USER:
+        return redirect(url_for("login"))
+    
+    try:
+        meet = Meet.Meet.get_by_linkid(meet_id)
+    except Meet.ExistError:
+        return redirect("https://http.cat/404")
+
+    if meet.status != Meet.MeetStatus.ACTIVE:
+        return redirect("https://http.cat/418")
+
+    if not meet.check_qr_data(qr_hash):
+        return redirect("https://http.cat/401")
+
+    presence = Presence.Presence.new_presence(meet, user)
+    return "OK"
 
 
 @app.route("/test_register")
@@ -182,12 +220,6 @@ def test_register():
         return("User already exist")
 
     return redirect(url_for("index"))
-
-@app.route("/qr_test")
-def qr_test():
-
-    return render_template("qr_test.html")
-
 
 @app.route("/test_add_meet")
 def test_add_meet():

@@ -1,9 +1,6 @@
 
 
 $(document).ready(function() {
-
-
-
     var qrcode = new QRCode(document.getElementById("qrcode"), {
         text: "test",
         width: 1024,
@@ -14,5 +11,4 @@ $(document).ready(function() {
     });
 
     qrcode.makeCode("test");
-    
 });

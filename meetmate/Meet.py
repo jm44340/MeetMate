@@ -1,12 +1,18 @@
 import hashlib
 import base64
-import Database
+import time
 import uuid
 import os
 
 from enum import Enum
 from bson.objectid import ObjectId
+from pymongo import settings
 import User
+import Database
+import Setting
+
+class ExistError(Exception):
+    pass
 
 class MeetStatus(Enum):
     INACTIVE = "INACTIVE"
@@ -39,6 +45,24 @@ class Meet:
         self.__checks_count = meet["checks_count"]
         self.__checks_interval = meet["checks_interval"]
 
+    def __calc_qr_hash(self, timestamp):
+        secret_string = str(timestamp) + self.__secret
+        hash = hashlib.sha256()
+        hash.update(secret_string.encode("utf-8"))
+        return hash.hexdigest()
+
+    def get_qr_data(self):
+        timestamp = int(time.time() / Setting.setting["qr_time"])
+        hash = self.__calc_qr_hash(timestamp)
+        qr_data = "/meet/" + self.__link_id + "/" + hash
+        return qr_data
+
+    def check_qr_data(self, hash):
+        timestamp = int(time.time() / Setting.setting["qr_time"])
+        hash0 = self.__calc_qr_hash(timestamp)
+        hash1 = self.__calc_qr_hash(timestamp - 1)
+        return (hash == hash0) or (hash == hash1)
+        
     @property
     def id(self):
         return self.__id
@@ -181,6 +205,8 @@ class Meet:
     @staticmethod
     def get_by_linkid(link_id):
         meet_id = Database.db.get_meet(link_id, variable="link_id")
+        if meet_id == None:
+            raise ExistError
         return Meet(meet_id["_id"])
 
     @staticmethod
@@ -209,7 +235,7 @@ class Meet:
         meet.longitude = 0.0
         meet.latitude = 0.0
         meet.radius = 300
-        meet.link_id = base64.b64encode(os.urandom(9))
+        meet.link_id = base64.b64encode(os.urandom(9)).decode("utf-8")
         meet.secret = str(uuid.uuid4())
         meet.checks_count = 0
         meet.checks_interval = 0
