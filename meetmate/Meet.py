@@ -10,6 +10,7 @@ from pymongo import settings
 import User
 import Database
 import Setting
+from cmath import sin, cos, asin, pi, sqrt
 
 class ExistError(Exception):
     pass
@@ -50,6 +51,19 @@ class Meet:
         hash = hashlib.sha256()
         hash.update(secret_string.encode("utf-8"))
         return hash.hexdigest()
+
+    def __calc_distance(self, longitude, latitude):
+        earth_radius = 6371000
+        diff_lon = (longitude - self.__longitude) * (pi / 180)
+        diff_lat = (latitude - self.__latitude) * (pi / 180)
+        a = sin(diff_lat / 2) * sin(diff_lat / 2) + cos(self.__latitude * (pi / 180)) * cos(
+            latitude * (pi / 180)) * sin(diff_lon / 2) * sin(diff_lon / 2)
+        b = 2 * asin(sqrt(a))
+        distance = earth_radius * b
+        if distance <= self.__radius:
+            return True
+        else:
+            return False
 
     def get_qr_data(self):
         timestamp = int(time.time() / Setting.setting["qr_time"])
