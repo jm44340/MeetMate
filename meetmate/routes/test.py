@@ -38,11 +38,11 @@ def test_sms(receiver, message):
 	return "sms send"
 
 
-@app.route("/test/log/<request_code>/<request_desc>/<response_code>/<response_desc>")
-def test_log(request_code, request_desc, response_code, response_desc):
+@app.route("/test/log/<request_type>/<request_desc>/<response_code>/<response_desc>")
+def test_log(request_type, request_desc, response_code, response_desc):
 	user_id = None
 	if "user" in session:
 		user_id = User.User(session["user"]).id
-	Log.Log.add_entry(user_id, request_code, request_desc, response_code, response_desc)
+	Log.Log.add_entry(user_id, request_type, request_desc, response_code, response_desc)
 	return "log entry added"
 

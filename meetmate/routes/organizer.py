@@ -1,4 +1,6 @@
 from flask import render_template, redirect, url_for, session
+
+from Setting import setting
 from meetmate import app
 import Meet
 import User

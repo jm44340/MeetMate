@@ -1,26 +1,30 @@
-import hashlib
-import base64
-import Database
-import os
-
 from enum import Enum
 from bson.objectid import ObjectId
 import Group
+import Database
+import hashlib
+import base64
+import os
+
 
 class AuthError(Exception):
     pass
 
+
 class ExistError(Exception):
     pass
+
 
 class UserType(Enum):
     USER = "USER"
     ORGANIZER = "ORGANIZER"
     ADMINISTRATOR = "ADMINISTRATOR"
 
+
 class UserStatus(Enum):
     ACTIVE = "ACTIVE"
     INACTIVE = "INACTIVE"
+
 
 class User:
     def __init__(self, id):

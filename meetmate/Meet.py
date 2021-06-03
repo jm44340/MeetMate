@@ -1,24 +1,25 @@
+from enum import Enum
+from bson.objectid import ObjectId
+from cmath import sin, cos, asin, pi, sqrt
 import hashlib
 import base64
 import time
 import uuid
 import os
-
-from enum import Enum
-from bson.objectid import ObjectId
-from pymongo import settings
 import User
 import Database
 import Setting
-from cmath import sin, cos, asin, pi, sqrt
+
 
 class ExistError(Exception):
     pass
+
 
 class MeetStatus(Enum):
     INACTIVE = "INACTIVE"
     ACTIVE = "ACTIVE"
     ENDED = "ENDED"
+
 
 class Meet:
     def __init__(self, id):

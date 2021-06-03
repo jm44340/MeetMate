@@ -1,12 +1,13 @@
+from bson.objectid import ObjectId
 import time
 import Database
-
-from bson.objectid import ObjectId
 import Meet
 import User
 
+
 class ExistError(Exception):
     pass
+
 
 class Presence:
     def __init__(self, id):

@@ -1,34 +1,39 @@
 import uuid
-from flask import render_template
-from meetmate import app
+from flask import render_template, session
 
+import User
+from meetmate import app
 
 @app.route("/error/<error_type>")
 def error(error_type):
-	id = str(uuid.uuid4())
+	error_id = str(uuid.uuid4())
+	user_id = None
+	if "user" in session:
+		user_id = User.User(session["user"]).id
+
 
 	# AUTHORIZATION ERRORS
 	if error_type == "user-already-exist":
-		return render_template("error.html", code="409", description="użytkownik już istnieje", id=id), 409
+		return render_template("error.html", code="409", description="użytkownik już istnieje", id=error_id), 409
 
 	# HTTP ERRORS
 	elif error_type == "404":
-		return render_template("error.html", code="404", description="nie znaleziono", id=id), 404
+		return render_template("error.html", code="404", description="nie znaleziono", id=error_id), 404
 	elif error_type == "500":
-		return render_template("error.html", code="500", description="błąd serwera", id=id), 500
+		return render_template("error.html", code="500", description="błąd serwera", id=error_id), 500
 
 	# MEETINGS ERRORS
 	elif error_type == "meet-not-active":
-		return render_template("error.html", code="403", description="spotkanie jest nieaktywne", id=id), 403
+		return render_template("error.html", code="403", description="spotkanie jest nieaktywne", id=error_id), 403
 	elif error_type == "meet-not-exist":
-		return render_template("error.html", code="404", description="spotkanie nie istnieje", id=id), 404
+		return render_template("error.html", code="404", description="spotkanie nie istnieje", id=error_id), 404
 
 	# QR ERRORS
 	elif error_type == "qr-not-valid":
-		return render_template("error.html", code="400", description="nieprawidłowy kod qr", id=id), 400
+		return render_template("error.html", code="400", description="nieprawidłowy kod qr", id=error_id), 400
 
 	# DEFAULT ERROR
-	return render_template("error.html", code="501", description="błąd", id=id), 501
+	return render_template("error.html", code="501", description="błąd", id=error_id), 501
 
 
 @app.errorhandler(404)

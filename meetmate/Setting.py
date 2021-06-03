@@ -1,7 +1,7 @@
-
 import json
 
 setting = None
+
 
 def setting_init():
     try:

@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, session
 
-import Log
+from Log import Log
 from meetmate import app
 import User
 
@@ -25,7 +25,8 @@ def logs():
     user = User.User(session["user"])
     if user.type != User.UserType.ADMINISTRATOR:
         return redirect(url_for("login"))
-    entries = Log.Log.get_logs()
+    entries = Log.get_logs()
+    Log.add_entry(user.id, "GET", "logi systemowe", "200", "ładowanie powiodło się")
     return render_template("logs.html", entries=entries)
 
 

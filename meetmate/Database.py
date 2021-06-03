@@ -179,7 +179,7 @@ class Database:
                 "time": None,
                 "user": None,
                 "client_ip": None,
-                "request_code": None,
+                "request_type": None,
                 "request_desc": None,
                 "response_code": None,
                 "response_desc": None,

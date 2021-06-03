@@ -1,14 +1,7 @@
-import datetime
-import hashlib
-import base64
-
 from flask import request
-
-import Database
-import os
-
-from enum import Enum
 from bson.objectid import ObjectId
+import Database
+import datetime
 
 
 class Log:
@@ -23,7 +16,7 @@ class Log:
         self.__time = entry["time"]
         self.__client_ip = entry["client_ip"]
         self.__user = entry["user"]
-        self.__request_code = entry["request_code"]
+        self.__request_type = entry["request_type"]
         self.__request_desc = entry["request_desc"]
         self.__response_code = entry["response_code"]
         self.__response_desc = entry["response_desc"]
@@ -60,12 +53,12 @@ class Log:
         self.update()
 
     @property
-    def request_code(self):
-        return self.__request_code
+    def request_type(self):
+        return self.__request_type
 
-    @request_code.setter
-    def request_code(self, value):
-        Database.db.log_update(self.__id, "request_code", value)
+    @request_type.setter
+    def request_type(self, value):
+        Database.db.log_update(self.__id, "request_type", value)
         self.update()
 
     @property
@@ -101,13 +94,13 @@ class Log:
         return [Log(entry["_id"]) for entry in entries]
 
     @staticmethod
-    def add_entry(user, request_code, request_desc, response_code, response_desc):
+    def add_entry(user, request_type, request_desc, response_code, response_desc):
         entry_id = Database.db.log_new_entry()
         entry = Log(entry_id)
         entry.time = datetime.datetime.now()
         entry.client_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
         entry.user = user
-        entry.request_code = request_code
+        entry.request_type = request_type
         entry.request_desc = request_desc
         entry.response_code = response_code
         entry.response_desc = response_desc
