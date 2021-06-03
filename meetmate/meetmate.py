@@ -220,6 +220,11 @@ def meet_qr_check(meet_id, qr_hash):
 
 @app.route("/scan_qr")
 def scan_qr():
+    if "user" not in session.keys():
+        return redirect(url_for("login"))
+    user = User.User(session["user"])
+    if user.type != User.UserType.USER:
+        return redirect(url_for("login"))
     return render_template("scan_qr.html")
 
 
