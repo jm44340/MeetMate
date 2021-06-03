@@ -1,5 +1,5 @@
 from random import randint
-from flask import Flask, render_template, redirect, url_for, session, request, g
+from flask import Flask, render_template, redirect, url_for, session, request
 
 import Database
 import Meet
@@ -9,7 +9,6 @@ import Group
 import Presence
 import os
 import SmsProvider
-import MailProvider
 
 Setting.setting_init()
 setting = Setting.setting
@@ -24,6 +23,7 @@ Database.database_init(
 
 app = Flask(__name__)
 app.secret_key = os.urandom(16)
+from routes import error, test
 
 
 @app.route("/test")
@@ -34,11 +34,13 @@ def test():
     users = group.get_all_users()
     return str(len(users))
 
+
 @app.route("/")
 def index():
     return redirect(url_for("login"))
 
-@app.route("/login", methods=["GET", "POST"]) #TODO: Do this by AJAX api calls
+
+@app.route("/login", methods=["GET", "POST"])  # TODO: Do this by AJAX api calls
 def login():
     if "user" in session:
         user = User.User(session["user"])
@@ -53,9 +55,9 @@ def login():
         try:
             user = User.User.auth(request.form["email"], request.form["password"])
         except:
-            return redirect(url_for("index")) # invalid post data, email or password
+            return redirect(url_for("index"))  # invalid post data, email or password
 
-        token = str(randint(0,999999)).zfill(6)
+        token = str(randint(0, 999999)).zfill(6)
         SmsProvider.send_2fa(user.phone_number, token)
         session["auth_id"] = str(user.id)
         session["auth_token"] = token
@@ -76,7 +78,7 @@ def auth():
             return redirect(url_for("user_panel"))
 
     if request.method == "POST":
-        #TODO disable 2fa backdoor
+        # TODO disable 2fa backdoor
         if request.form["password"] == session["auth_token"] or request.form["password"] == "0":
             user = User.User(session["auth_id"])
             session["user"] = str(user.id)
@@ -96,18 +98,15 @@ def auth():
         return redirect(url_for("login"))
 
 
-
-
-
 @app.route("/logout")
 def logout():
     session.pop("user", None)
     return redirect(url_for("index"))
 
 
-#@app.route("/reset") #TODO
-#def reset_password(): #TODO
-    #return redirect(url_for("index")) #TODO
+# @app.route("/reset") #TODO
+# def reset_password(): #TODO
+# return redirect(url_for("index")) #TODO
 
 @app.route("/organizer")
 def organizer_panel():
@@ -142,6 +141,7 @@ def admin_panel():
     users = User.User.get_all_users()
     return render_template("admin.html", users=users)
 
+
 @app.route("/user")
 def user_panel():
     if "user" not in session.keys():
@@ -152,6 +152,7 @@ def user_panel():
         return redirect(url_for("login"))
 
     return render_template("user.html")
+
 
 @app.route("/new_group")
 def new_group():
@@ -169,7 +170,6 @@ def meetings_history():
 
     meetings = Meet.Meet.get_by_user(user)
     return render_template("user_history.html", meetings=meetings)
-
 
 
 @app.route("/new_meeting")
@@ -190,9 +190,10 @@ def meet_qr(meet_id):
         meet = Meet.Meet.get_by_linkid(meet_id)
     except Meet.ExistError:
         return redirect("https://http.cat/404")
-    
+
     qr_data = meet.get_qr_data()
     return render_template("qr.html", qr_data=qr_data, qr_time=setting["qr_time"])
+
 
 @app.route("/meet/<meet_id>/<qr_hash>")
 def meet_qr_check(meet_id, qr_hash):
@@ -202,17 +203,17 @@ def meet_qr_check(meet_id, qr_hash):
     user = User.User(session["user"])
     if user.type != User.UserType.USER:
         return redirect(url_for("login"))
-    
+
     try:
         meet = Meet.Meet.get_by_linkid(meet_id)
     except Meet.ExistError:
-        return redirect("https://http.cat/404")
+        return error.error("meet-not-exist")
 
     if meet.status != Meet.MeetStatus.ACTIVE:
-        return redirect("https://http.cat/418")
+        return error.error("meet-not-active")
 
     if not meet.check_qr_data(qr_hash):
-        return redirect("https://http.cat/401")
+        return error.error("qr-not-valid")
 
     presence = Presence.Presence.new_presence(meet, user)
     return "OK"
@@ -228,20 +229,4 @@ def scan_qr():
     return render_template("scan_qr.html")
 
 
-@app.route("/test_register")
-def test_register():
-    try:
-        User.User.add_user("admin@admin.com", "123456", "000000000", "Adam", "Małysz")
-    except User.ExistError:
-        return("User already exist")
 
-    return redirect(url_for("index"))
-
-@app.route("/test_add_meet")
-def test_add_meet():
-    if "user" in session:
-        user = User.User(session["user"])
-        if user.type == User.UserType.ORGANIZER:
-            meet = Meet.Meet.create_meet("testowe",user,"lokalizacja testowa","opis testowy")
-
-    return redirect(url_for("index"))
