@@ -536,7 +536,39 @@ input:hover{
 	outline: 5px solid @primary-color;
 }
 
+#outdiv{
+	width:100%;
+	height: 100%;
+	padding: 2rem;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
 
+#outdiv > #v{
+	width:100vmin;
+	height:75.9vmin;
+    transform: rotateY(180deg);
+    -webkit-transform:rotateY(180deg);
+    -moz-transform:rotateY(180deg);
+	border: 1rem solid @primary-color;
+}
+
+#qrimg{
+	display: none;
+}
+
+#webcamimg{
+	display: none;
+}
+
+#qr-canvas{
+	display:none;
+}
+
+#result{
+	display: none;
+}
 
 @keyframes wave {
 	0% {
