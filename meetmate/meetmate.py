@@ -218,6 +218,11 @@ def meet_qr_check(meet_id, qr_hash):
     return "OK"
 
 
+@app.route("/scan_qr")
+def scan_qr():
+    return render_template("scan_qr.html")
+
+
 @app.route("/test_register")
 def test_register():
     try:
