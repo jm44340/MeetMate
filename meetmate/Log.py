@@ -9,7 +9,6 @@ import os
 
 from enum import Enum
 from bson.objectid import ObjectId
-import Group
 
 
 class Log:

@@ -17,10 +17,10 @@
 
 
 
-    <title>MeetMate - Panel Administratora</title>
+    <title>MeetMate - Logi systemu</title>
   </head>
   
-  <body id="admin-body">
+  <body id="user-history-body">
 
     <div id="user-edit-wrapper">
       <div id="user-edit" class="container-sm">
@@ -51,31 +51,12 @@
       </div>
     </div>
 
-    <div id="admin-wrapper" class="content-wrapper container-sm">
-
-    
+   <div id="admin-wrapper" class="content-wrapper container-sm">
 
       <div id="title" class="mt-5 mb-5">
-        Witaj, {{ logged_user }}
+        Logi systemu
       </div>
       
-      <div class="inline-menu-wrapper mb-3">
-        <ul class="inline-menu" id="admin-menu">
-          <li>
-            <button id="add-user-button">Dodaj użytkownika</button>
-          </li>
-          <li>
-              <button><a href="/logout">Wyloguj</a></button>
-          </li>
-          <li>
-            <button>Importuj CSV</button>
-          </li>
-            <li>
-              <button><a href="/logs">Logi systemu</a></button>
-          </li>
-        </ul>
-      </div>
-
       <div id="add-user-wrapper">
         <div class="close-button" id="close-add-user">  
           <svg>
@@ -100,45 +81,26 @@
           </svg>
         </div>
         <div id="add-user">
-          <form id="add-user-form">
-                <input type="email" id="addUserEmail" name="email" class="form-control" placeholder="Adres e-mail" required="" autofocus="">
-                <input type="password" id="addUserPassword" name="password" class="form-control" placeholder="Hasło" required="">
-                <input type="tel" id="addUserPhone" name="phone" class="form-control" placeholder="Telefon" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required="">
-                <input type="text" id="addUserName" name="name" class="form-control" placeholder="Imie" required="">
-                <input type="text" id="addUserSurname" name="surname" class="form-control" placeholder="Nazwisko" required="">
-                <select id="addUserType" name="type" class="form-control" required="">
-                  <option value="user">
-                    Użytkownik
-                  </option>
-                  <option value="organizer">
-                    Organizator
-                  </option>
-                  <option value="administrator">
-                    Administrator
-                  </option>
 
-                </select>
-             
-            
-            <button type="submit">Dodaj</button>
-          </form>
         </div>
 
       </div>
 
-
-      <form class="form-inline d-flex flex-row" id="searchbox-form">
-        <input id="searchBar" class="text-center form-control flex-grow-1" onkeyup="searchForUser()" type="text" placeholder="Wyszukaj użytkownika" aria-label="Search" >
-      </form>
-
       <ul id="user-list" class="mt-3 mb-5">
-        {% for user in users %}
-            <li><a>{{ user.email }}</a></li>
+        {% for entry in entries %}
+            <li><a>{{ entry.time }}</a></li>
         {% endfor %}
       </ul>
-      
 
     </div>
+
+          <div class="inline-menu-wrapper mb-3">
+        <ul class="inline-menu" id="admin-menu">
+          <li>
+              <button><a href="/user">Powrót</a></button>
+          </li>
+        </ul>
+      </div>
 
     <script src="../static/js/search_bar.js"></script>
     <script src="../static/js/admin-panel.js"></script>

@@ -202,9 +202,9 @@ class Database:
         db_logs = self.db.logs
         return db_logs.find_one({variable: value})
 
-    def get_log_entries(self, value: str, variable="_id"):
+    def get_log_entries(self):
         db_logs = self.db.logs
-        return list(db_logs.find({variable: value}))
+        return list(db_logs.find())
 
 
 def database_init(database, host, port, user, password):

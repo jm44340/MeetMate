@@ -1,4 +1,6 @@
 from flask import render_template, redirect, url_for, session
+
+import Log
 from meetmate import app
 import User
 
@@ -16,7 +18,19 @@ def admin_panel():
     users = User.User.get_all_users()
     return render_template("admin.html", users=users, logged_user=logged_user)
 
+@app.route("/logs")
+def logs():
+    if "user" not in session.keys():
+        return redirect(url_for("login"))
+    user = User.User(session["user"])
+    if user.type != User.UserType.ADMINISTRATOR:
+        return redirect(url_for("login"))
+    entries = Log.Log.get_logs()
+    return render_template("logs.html", entries=entries)
+
 
 @app.route("/new_group")
 def new_group():
     return render_template("new_group.html")
+
+
