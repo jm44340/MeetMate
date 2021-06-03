@@ -2,6 +2,7 @@ import MailProvider
 import Meet
 import SmsProvider
 import User
+import Log
 from flask import render_template, redirect, url_for, session
 from meetmate import app
 from routes import error
@@ -35,3 +36,13 @@ def test_mail(receiver, subject, message):
 def test_sms(receiver, message):
 	SmsProvider.send_sms(receiver, message)
 	return "sms send"
+
+
+@app.route("/test/log/<request_code>/<request_desc>/<response_code>/<response_desc>")
+def test_log(request_code, request_desc, response_code, response_desc):
+	user_id = None
+	if "user" in session:
+		user_id = User.User(session["user"]).id
+	Log.Log.add_entry(user_id, request_code, request_desc, response_code, response_desc)
+	return "log entry added"
+

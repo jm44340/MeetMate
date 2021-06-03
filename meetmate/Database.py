@@ -168,6 +168,45 @@ class Database:
             }
         )
 
+
+
+# logs
+
+    def log_new_entry(self):
+        db_logs = self.db.logs
+        entry_id = db_logs.insert_one(
+            {
+                "time": None,
+                "user": None,
+                "client_ip": None,
+                "request_code": None,
+                "request_desc": None,
+                "response_code": None,
+                "response_desc": None,
+            }
+        )
+        return entry_id.inserted_id
+
+    def log_update(self, entry_id, variable, value):
+        db_logs = self.db.logs
+        db_logs.update_one(
+            {"_id": entry_id},
+            {
+                "$set":{
+                    variable: value
+                }
+            }
+        )
+
+    def get_log_entry(self, value: str, variable="_id"):
+        db_logs = self.db.logs
+        return db_logs.find_one({variable: value})
+
+    def get_log_entries(self, value: str, variable="_id"):
+        db_logs = self.db.logs
+        return list(db_logs.find({variable: value}))
+
+
 def database_init(database, host, port, user, password):
     global db
 
