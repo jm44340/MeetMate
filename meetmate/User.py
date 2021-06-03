@@ -6,6 +6,8 @@ import hashlib
 import base64
 import os
 
+import routes.error
+
 
 class AuthError(Exception):
     pass
@@ -156,7 +158,6 @@ class User:
         exist = Database.db.get_user(email, "email")
         if exist is not None:
             raise ExistError
-
         user_id = Database.db.new_user()
         user = User(user_id)
         user.email = email
