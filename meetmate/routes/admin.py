@@ -53,9 +53,14 @@ def import_users():
     if request.method == 'GET':
         return render_template("import_users.html")
     if request.method == 'POST':
-        ret = redirect(url_for("index"))
+        ret = redirect(url_for("import_users"))
         uploaded_file = request.files['file']
         filename = secure_filename(uploaded_file.filename)
+        file_ext = os.path.splitext(filename)[1]
+        if filename == '':
+            return error("empty-file")
+        if file_ext != ".csv":
+            return error("not-csv-file")
         uploaded_file.save(filename)
         with open(filename, newline='') as csvfile:
             reader = csv.DictReader(csvfile, delimiter=';')

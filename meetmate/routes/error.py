@@ -1,6 +1,7 @@
 import uuid
 from flask import render_template, session
 
+import Log
 import User
 from meetmate import app
 
@@ -31,6 +32,14 @@ def error(error_type):
 	# QR ERRORS
 	elif error_type == "qr-not-valid":
 		return render_template("error.html", code="400", description="nieprawidłowy kod qr", id=error_id), 400
+
+	# CSV FILE ERRORS
+	elif error_type == "empty-file":
+		Log.Log.add_entry(user_id,"POST","import użytkowników","406","plik nie został przesłany")
+		return render_template("error.html", code="406", description="plik nie został przesłany", id=error_id), 406
+	elif error_type == "not-csv-file":
+		Log.Log.add_entry(user_id, "POST", "import użytkowników", "406", "plik musi posiadać rozszerzenie cs")
+		return render_template("error.html", code="406", description="plik musi posiadać rozszerzenie csv", id=error_id), 406
 
 	# DEFAULT ERROR
 	return render_template("error.html", code="501", description="błąd", id=error_id), 501
