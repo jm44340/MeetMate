@@ -16,6 +16,7 @@ Database.database_init(
 
 app = Flask(__name__)
 app.secret_key = os.urandom(16)
+from routes import admin, authorization, error, organizer, test, user
 
 @app.route("/")
 def index():

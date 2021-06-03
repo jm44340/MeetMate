@@ -1,7 +1,7 @@
 from random import randint
 from flask import render_template, redirect, url_for, session, request
 from meetmate import app
-import SmsProvider
+import SmsProvider, MailProvider
 import User
 
 
