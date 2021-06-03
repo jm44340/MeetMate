@@ -68,8 +68,11 @@ def auth():
 
 @app.route("/logout")
 def logout():
-    Log.add_entry(session["user"], "POST", "wylogowanie", "200", "wylogowanie powiodło się")
-    session.pop("user", None)
+    if "user" in session:
+        Log.add_entry(session["user"], "POST", "wylogowanie", "200", "wylogowanie powiodło się")
+        session.pop("user", None)
+    else:
+        Log.add_entry(None, "POST", "wylogowanie", "401", "wylogowanie nie powiodło się")
     return redirect(url_for("index"))
 
 
