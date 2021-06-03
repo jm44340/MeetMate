@@ -45,15 +45,15 @@ def new_group():
 
 @app.route("/import_users", methods=['GET', 'POST'])
 def import_users():
+    if "user" not in session.keys():
+        return redirect(url_for("login"))
+    user = User.User(session["user"])
+    if user.type != User.UserType.ADMINISTRATOR:
+        return redirect(url_for("login"))
     if request.method == 'GET':
-        if "user" not in session.keys():
-            return redirect(url_for("login"))
-        user = User.User(session["user"])
-        if user.type != User.UserType.ADMINISTRATOR:
-            return redirect(url_for("login"))
         return render_template("import_users.html")
     if request.method == 'POST':
-        ret = redirect(url_for("login"))
+        ret = redirect(url_for("index"))
         uploaded_file = request.files['file']
         filename = secure_filename(uploaded_file.filename)
         uploaded_file.save(filename)
@@ -69,3 +69,25 @@ def import_users():
                     ret = error("user-already-exist")
         os.remove(filename)
         return ret
+
+
+@app.route("/add_user", methods=['POST'])
+def add_user():
+    if "user" not in session.keys():
+        return redirect(url_for("login"))
+    user = User.User(session["user"])
+    if user.type != User.UserType.ADMINISTRATOR:
+        return redirect(url_for("login"))
+
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        phone_number = request.form.get('phone')
+        first_name = request.form.get('name')
+        last_name = request.form.get('surname')
+        try:
+            User.User.add_user(email, password, phone_number, first_name, last_name)
+        except:
+            return error("user-already-exist")
+
+    return redirect(url_for("index"))

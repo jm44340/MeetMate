@@ -84,10 +84,10 @@
                     </svg>
                 </div>
                 <div id="add-user">
-                    <form id="add-user-form">
+                    <form id="add-user-form" method="POST" action="/add_user">
                         <input type="email" id="addUserEmail" name="email" class="form-control" placeholder="Adres e-mail" required="" autofocus="">
                         <input type="password" id="addUserPassword" name="password" class="form-control" placeholder="Hasło" required="">
-                        <input type="tel" id="addUserPhone" name="phone" class="form-control" placeholder="Telefon" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required="">
+                        <input type="tel" id="addUserPhone" name="phone" class="form-control" placeholder="Telefon" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" required="">
                         <input type="text" id="addUserName" name="name" class="form-control" placeholder="Imie" required="">
                         <input type="text" id="addUserSurname" name="surname" class="form-control" placeholder="Nazwisko" required="">
                         <select id="addUserType" name="type" class="form-control" required="">
