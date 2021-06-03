@@ -66,3 +66,8 @@ def logout():
     session.pop("user", None)
     return redirect(url_for("index"))
 
+
+#TODO password reset
+@app.route("/reset")
+def reset_password():
+    return redirect(url_for("index"))

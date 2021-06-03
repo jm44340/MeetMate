@@ -6,7 +6,7 @@ from routes import error
 
 
 @app.route("/test/add_user/<email>/<password>/<phone_number>/<first_name>/<last_name>")
-def add_user(email, password, phone_number, first_name, last_name):
+def test_add_user(email, password, phone_number, first_name, last_name):
 	try:
 		User.User.add_user(email, password, phone_number, first_name, last_name)
 	except User.ExistError:
@@ -15,7 +15,7 @@ def add_user(email, password, phone_number, first_name, last_name):
 
 
 @app.route("/test/create_meet/<name>/<localization>/<description>")
-def create_meet(name, localization, description):
+def test_create_meet(name, localization, description):
 	if "user" in session:
 		user = User.User(session["user"])
 		if user.type == User.UserType.ORGANIZER:
