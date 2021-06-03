@@ -1,13 +1,18 @@
 import uuid
-from flask import render_template, redirect, url_for
+from flask import render_template
 from meetmate import app
 
 
 @app.route("/error/<error_type>")
 def error(error_type):
 	id = str(uuid.uuid4())
+
+	# AUTHORIZATION ERRORS
+	if error_type == "user-already-exist":
+		return render_template("error.html", code="409", description="użytkownik już istnieje", id=id), 409
+
 	# HTTP ERRORS
-	if error_type == "404":
+	elif error_type == "404":
 		return render_template("error.html", code="404", description="nie znaleziono", id=id), 404
 	elif error_type == "500":
 		return render_template("error.html", code="500", description="błąd serwera", id=id), 500
