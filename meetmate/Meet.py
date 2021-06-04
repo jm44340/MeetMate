@@ -62,13 +62,7 @@ class Meet:
             latitude * (pi / 180)) * sin(diff_lon / 2) * sin(diff_lon / 2)
         b = 2 * asin(sqrt(a))
         distance = earth_radius * b
-
-        print(distance.real, self.__radius)
-
-        if distance.real <= self.__radius:
-            return True
-        else:
-            return False
+        return distance.real
 
     def get_qr_data(self):
         timestamp = int(time.time() / Setting.setting["qr_time"])
@@ -83,7 +77,9 @@ class Meet:
         return (hash == hash0) or (hash == hash1)
 
     def check_localization(self, longitude, latitude):
-        return self.__calc_distance(longitude,latitude)
+        distance = self.__calc_distance(longitude,latitude)
+        print(distance.real, self.__radius)
+        return distance.real <= self.__radius
 
     @property
     def id(self):
