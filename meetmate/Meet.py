@@ -1,3 +1,4 @@
+import decimal
 from enum import Enum
 from bson.objectid import ObjectId
 from cmath import sin, cos, asin, pi, sqrt
@@ -55,13 +56,16 @@ class Meet:
 
     def __calc_distance(self, longitude, latitude):
         earth_radius = 6371000
-        diff_lon = (longitude - self.__longitude) * (pi / 180)
-        diff_lat = (latitude - self.__latitude) * (pi / 180)
-        a = sin(diff_lat / 2) * sin(diff_lat / 2) + cos(self.__latitude * (pi / 180)) * cos(
+        diff_lon = (longitude - float(str(self.__longitude))) * (pi / 180)
+        diff_lat = (latitude - float(str(self.__latitude))) * (pi / 180)
+        a = sin(diff_lat / 2) * sin(diff_lat / 2) + cos(float(str(self.__latitude)) * (pi / 180)) * cos(
             latitude * (pi / 180)) * sin(diff_lon / 2) * sin(diff_lon / 2)
         b = 2 * asin(sqrt(a))
         distance = earth_radius * b
-        if distance <= self.__radius:
+
+        print(distance.real, self.__radius)
+
+        if distance.real <= self.__radius:
             return True
         else:
             return False
@@ -77,7 +81,10 @@ class Meet:
         hash0 = self.__calc_qr_hash(timestamp)
         hash1 = self.__calc_qr_hash(timestamp - 1)
         return (hash == hash0) or (hash == hash1)
-        
+
+    def check_localization(self, longitude, latitude):
+        return self.__calc_distance(longitude,latitude)
+
     @property
     def id(self):
         return self.__id
