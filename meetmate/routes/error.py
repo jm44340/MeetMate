@@ -38,7 +38,7 @@ def error(error_type):
 		Log.Log.add_entry(user_id,"POST","import użytkowników","406","plik nie został przesłany")
 		return render_template("error.html", code="406", description="plik nie został przesłany", id=error_id), 406
 	elif error_type == "not-csv-file":
-		Log.Log.add_entry(user_id, "POST", "import użytkowników", "406", "plik musi posiadać rozszerzenie cs")
+		Log.Log.add_entry(user_id, "POST", "import użytkowników", "406", "plik musi posiadać rozszerzenie csv")
 		return render_template("error.html", code="406", description="plik musi posiadać rozszerzenie csv", id=error_id), 406
 
 	# DEFAULT ERROR
