@@ -7,6 +7,7 @@ import Meet
 import Presence
 import User
 from Setting import setting
+from routes import error
 from meetmate import app
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
@@ -35,8 +36,40 @@ def organizer_meetings():
     return render_template("organizer_meetings.html", meetings=meetings)
 
 
-@app.route("/new_meeting")
+@app.route("/new_meeting", methods=['GET', 'POST'])
 def new_meeting():
+    if "user" not in session.keys():
+        return redirect(url_for("login"))
+    user = User.User(session["user"])
+    if user.type != User.UserType.ORGANIZER:
+        return redirect(url_for("index"))
+
+    if request.method == 'POST':
+        try:
+            name = str(request.form.get("meetingName"))
+            description = str(request.form.get("meetingDescription"))
+            start_time = str(request.form.get("meetingStart"))
+            stop_time = str(request.form.get("meetingEnd"))
+            localization = str(request.form.get("meetingLocation"))
+            longitude = float(request.form.get("meetingLocationX"))
+            latitude = float(request.form.get("meetingLocationY"))
+            radius = int(request.form.get("meetingRadius"))
+        except:
+            return error.error("500")
+        meet = Meet.create_meet(
+            name,
+            user,
+            localization,
+            description
+        )
+
+        meet.start_time = int(datetime.datetime.strptime(start_time, r'%Y-%m-%dT%H:%M').timestamp())
+        meet.stop_time = int(datetime.datetime.strptime(stop_time, r'%Y-%m-%dT%H:%M').timestamp())
+        meet.longitude = longitude
+        meet.latitude = latitude
+        meet.radius = radius
+
+
     return render_template("new_meeting.html")
 
 @app.route("/edit_meeting/<meet_id>", methods=['POST'])
