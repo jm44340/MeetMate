@@ -583,6 +583,42 @@ input:hover{
 	display: none;
 }
 
+
+.no-transition{
+	transition: 0s !important;
+}
+
+.icon-spinner{
+	animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+	to {transform: rotate(360deg);}
+  }
+
+
+#new-meeting-wrapper > #meeting-form > label{
+	color: @primary-color;
+	margin-left: 45px;
+}
+
+#meeting-form{
+	display: flex;
+	flex-direction: column;
+}
+
+#new-meeting-wrapper > #meeting-form > .form-control{
+	width: 250px;
+	align-self: center;
+}
+
+
+#meeting-form  > *{
+	transition: 0s !important;
+}
+
+
+
 @keyframes wave {
 	0% {
 	  margin-left: 0;
@@ -609,3 +645,7 @@ input:hover{
 	}
 
   }
+
+
+
+

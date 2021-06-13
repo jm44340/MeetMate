@@ -12,51 +12,11 @@
         <script type="text/javascript" src="../../static/js/qrcode.js"></script>
         <link rel="icon" href="../../static/resources/favicon.png" type="image/png" sizes="64x64">
     </head>
-    <body>
+    <body class="d-flex align-items-center">
         <div id="user-wrapper" class="content-wrapper container-md flex-column">
-            <img id="icon" class="rounded mx-auto d-block" width="200" src="{{url_for('static', filename="/resources/svg/meeting.svg")}}">
+            <img id="icon" class="icon-spinner mb-4 rounded mx-auto d-block" width="200" src="../../static/resources/svg/loading.svg">
             <h2 id="message" class="text-center text-white">Sprawdzanie lokalizacji...</h2>
         </div>
-        <script>
-            setTimeout(function(){
-                navigator.geolocation.getCurrentPosition(function(position){
-                    var form_data = new FormData()
-                    form_data.append("latitude", position.coords.latitude);
-                    form_data.append("longitude", position.coords.longitude);
-
-                    var request = new XMLHttpRequest();
-                    request.open("POST", document.location.href);
-                    request.onreadystatechange = function(){
-                        if(request.readyState !== XMLHttpRequest.DONE){
-                            return;
-                        }
-
-                        if(request.status != 200){
-                           ;
-                        }
-
-                        response = JSON.parse(request.responseText);
-                        switch(response.status){
-                            case "ERROR":
-                                $('#icon').attr("src","{{url_for('static', filename="/resources/svg/close.svg")}}");
-                                $('#message').text("Błąd.");
-                                break;
-                            case "TOO FAR":
-                                $('#icon').attr("src","{{url_for('static', filename="/resources/svg/close.svg")}}");
-                                $('#message').text("Jesteś za daleko.");
-                                break;
-                            case "OK":
-                                $('#icon').attr("src","{{url_for('static', filename="/resources/svg/tick.svg")}}");
-                                $('#message').text("Obecność potwierdzona!");
-                                break;
-                        }
-                    };
-
-                    request.send(form_data);
-                })
-            }, 1000);
-            
-        </script>
-        <!-- <script src="../../static/js/qr_code_generation.js"></script> -->
+        <script src="../../static/js/location_check.js"></script>
     </body>
 </html>
