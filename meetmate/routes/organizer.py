@@ -56,7 +56,7 @@ def new_meeting():
             radius = int(request.form.get("meetingRadius"))
         except:
             return error.error("500")
-        meet = Meet.create_meet(
+        meet = Meet.Meet.create_meet(
             name,
             user,
             localization,
@@ -68,6 +68,7 @@ def new_meeting():
         meet.longitude = longitude
         meet.latitude = latitude
         meet.radius = radius
+        return redirect(url_for("organizer_panel"))
 
 
     return render_template("new_meeting.html")

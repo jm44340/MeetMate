@@ -20,10 +20,7 @@
 
 
         <div id="new-meeting-wrapper" class="content-wrapper d-flex align-items-center">
-
-  
-
-            <form id="meeting-form">
+            <form id="meeting-form" method="POST" action="/new_meeting">
 
                 <div id="title" class="mt-5 mb-2">
                     Nowe spotkanie
@@ -72,9 +69,9 @@
                 <input type="text" id="inputMeetingDescription" name="meetingDescription" class="form-control mb-3">
 
                 <div class="d-flex flex-row">
-                    <a class="col no-transition button-men" id="" href="/new_meeting">
-                        <button type="button" class="mb-4 mt-4 no-transition"> Dodaj </button>
-                    </a>
+                    <div class="col no-transition button-men" id="">
+                        <button type="submit" class="mb-4 mt-4 no-transition"> Dodaj </button>
+                    </div>
 
                     <a class="col no-transition button-men" id="" href="/organizer">
                         <button type="button" class="mb-4 mt-4 no-transition"> Powrót </button>
@@ -88,6 +85,13 @@
 
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+        <script>
+            navigator.geolocation.getCurrentPosition(function(position){
+                $('#inputMeetingLocationX').val(position.coords.latitude);
+                $('#inputMeetingLocationY').val(position.coords.longitude);
+            });
+        </script>
 
     </body>
 
