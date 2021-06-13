@@ -143,7 +143,8 @@ input:hover{
 
 .login-menu-wrapper > button, 
 #logout > button,
-#newGroup > button{
+#newGroup > button,
+.button-men > button{
 	background-color: @primary-color;
 	border: none;
 	padding: 4px;
@@ -159,8 +160,9 @@ input:hover{
 }
 
 .login-menu-wrapper > button:hover,
- #logout > button
- #newGroup > button{
+ #logout > button,
+ #newGroup > button,
+ .button-men >  button{
 	background-color: @primary-darker;
 }
 
@@ -173,6 +175,10 @@ input:hover{
 #newGroup > button:focus,
 #newGroup > button:active:focus,
 #newGroup > button,
+.button-men >  button:active,
+.button-men >  button:focus,
+.button-men >  button:active:focus,
+.button-men >  button,
 #logout > button:active,
 #logout > button:focus,
 #logout > button:active:focus,
@@ -259,7 +265,6 @@ input:hover{
 }
 
 #user-edit{
-	height: 400px;
 	background-color: @lighter-gray;
 	border-radius: 8px;
 	position: relative;
@@ -503,7 +508,8 @@ input:hover{
 
 
 #logout,
-#newGroup{
+#newGroup,
+.button-men{
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -513,12 +519,14 @@ input:hover{
 }
 
 #logout > button,
-#newGroup > button{
+#newGroup > button,
+.button-men > button{
 	padding:1rem;
 }
 
 #logout > button:hover,
-#newGroup > button:hover{
+#newGroup > button:hover,
+.button-men > button:hover{
 	background-color: @primary-darker;
 }
 
@@ -597,10 +605,15 @@ input:hover{
   }
 
 
+#user-edit > #meeting-form > label,
 #new-meeting-wrapper > #meeting-form > label{
 	color: @primary-color;
-	margin-left: 45px;
 }
+
+#user-edit > #meeting-form > label{
+	margin-left: 0;
+}
+
 
 #meeting-form{
 	display: flex;
@@ -608,10 +621,12 @@ input:hover{
 }
 
 #new-meeting-wrapper > #meeting-form > .form-control{
-	width: 250px;
 	align-self: center;
 }
 
+#new-meeting-wrapper *{
+	transition: 0s;
+}
 
 #meeting-form  > *{
 	transition: 0s !important;

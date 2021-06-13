@@ -44,8 +44,24 @@
                 </label>
                 <input type="datetime-local" id="inputMeetingEnd" name="meetingEnd" class="form-control mb-3" required="">
 
+
+                <label for="meetingLocalization">
+                    Lokalizacja
+                </label>
+                <div class="d-flex flex-row">
+                    <input type="text" id="inputMeetingLocationX" name="meetingLocationX" class="form-control mb-3" style="margin-right: 2rem;" required="">
+                    <input type="text" id="inputMeetingLocationY" name="meetingLocationY" class="form-control mr-3 mb-3" required="">
+                </div>
+               
+
+                <label for="meetingRadius">
+                    Odległość maksymalna
+                </label>
+                <input type="text" id="inputMeetingRadius" name="meetingRadius" class="form-control mb-3" required="">
+
+
                 <label for="meetingLocation">
-                    Lokacja
+                    Miejsce
                 </label>
                 <input type="text" id="inputMeetingLocation" name="meetingLocation" class="form-control mb-3" required="">
 
@@ -54,6 +70,19 @@
                     Krótki opis
                 </label>
                 <input type="text" id="inputMeetingDescription" name="meetingDescription" class="form-control mb-3">
+
+                <div class="d-flex flex-row">
+                    <a class="col no-transition button-men" id="" href="/new_meeting">
+                        <button type="button" class="mb-4 mt-4 no-transition"> Dodaj </button>
+                    </a>
+
+                    <a class="col no-transition button-men" id="" href="/organizer">
+                        <button type="button" class="mb-4 mt-4 no-transition"> Powrót </button>
+                    </a>
+                </div>
+                    
+
+                
 
             </form>
 
