@@ -157,6 +157,11 @@ class Database:
         presence = db_presence.find_one({variable: value})
         return presence
 
+    def get_presences(self, value: str, variable="_id"):
+        db_presence = self.db.presence
+        presences = db_presence.find({variable: value})
+        return list(presences)
+
     def update_presence(self, presence_id, variable, value):
         db_presence = self.db.presence
         db_presence.update_one(

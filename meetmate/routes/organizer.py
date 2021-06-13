@@ -1,10 +1,16 @@
-from flask import render_template, redirect, url_for, session, request
+import datetime
 import json
 
+from flask import render_template, redirect, url_for, session, request
+
+import Meet
+import Presence
+import User
 from Setting import setting
 from meetmate import app
-import Meet
-import User
+import pandas as pd
+from jinja2 import Environment, FileSystemLoader
+
 
 
 @app.route("/organizer")
@@ -122,8 +128,17 @@ def raport(meet_id):
 
     try:
         meet = Meet.Meet.get_by_linkid(meet_id)
+        presences = Presence.Presence.get_by_meet(meet)
+        data = []
+        for presence in presences:
+            data.append([User.User(presence.user).last_name,User.User(presence.user).first_name,datetime.datetime.fromtimestamp(presence.time)])
+        df = pd.DataFrame(data, columns=['Nazwisko', 'Imię', 'Czas potwierdzenia obecności'])
+        df.sort_values('Nazwisko')
+        env = Environment(loader=FileSystemLoader('.'))
+        template = env.get_template("templates/report.html")
+        template_vars = {"meeting": meet.name,"place": meet.localization,"organizer": User.User(meet.organizer).first_name+" "+User.User(meet.organizer).last_name,"start": datetime.datetime.fromtimestamp(meet.start_time),"stop": datetime.datetime.fromtimestamp(meet.stop_time),
+                     "data": df.to_html()}
+        return template.render(template_vars)
+
     except Meet.ExistError:
         return redirect("https://http.cat/404")
-
-    # TODO
-

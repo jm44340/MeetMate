@@ -62,3 +62,8 @@ class Presence:
         presence.meeting = meet
         presence.user = user
         return presence
+
+    @staticmethod
+    def get_by_meet(meet : Meet.Meet):
+        presences = Database.db.get_presences(meet.id, variable="meeting")
+        return [Presence(presence["_id"]) for presence in presences]
