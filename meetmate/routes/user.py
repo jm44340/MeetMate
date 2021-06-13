@@ -16,7 +16,7 @@ def user_panel():
 
     user = User.User(session["user"])
     if user.type != User.UserType.USER:
-        return redirect(url_for("login"))
+        return redirect(url_for("index"))
 
     logged_user = user.first_name+' '+user.last_name
     return render_template("user.html", logged_user=logged_user)
@@ -30,7 +30,7 @@ def meetings_history():
 
     user = User.User(session["user"])
     if user.type != User.UserType.USER:
-        return redirect(url_for("login"))
+        return redirect(url_for("index"))
 
     meetings = Meet.Meet.get_by_user(user)
     return render_template("user_history.html", meetings=meetings)
@@ -42,7 +42,7 @@ def scan_qr():
         return redirect(url_for("login"))
     user = User.User(session["user"])
     if user.type != User.UserType.USER:
-        return redirect(url_for("login"))
+        return redirect(url_for("index"))
     return render_template("scan_qr.html")
 
 @app.route("/meet/<meet_id>/<qr_hash>", methods=['GET', 'POST'])

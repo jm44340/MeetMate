@@ -19,7 +19,7 @@ def admin_panel():
 
     user = User.User(session["user"])
     if user.type != User.UserType.ADMINISTRATOR:
-        return redirect(url_for("login"))
+        return redirect(url_for("index"))
 
     logged_user = user.first_name + ' ' + user.last_name
     users = User.User.get_all_users()
@@ -32,7 +32,7 @@ def logs():
         return redirect(url_for("login"))
     user = User.User(session["user"])
     if user.type != User.UserType.ADMINISTRATOR:
-        return redirect(url_for("login"))
+        return redirect(url_for("index"))
     entries = Log.get_logs()
     Log.add_entry(user.id, "GET", "logi systemowe", "200", "ładowanie powiodło się")
     return render_template("logs.html", entries=entries)
@@ -49,7 +49,7 @@ def import_users():
         return redirect(url_for("login"))
     user = User.User(session["user"])
     if user.type != User.UserType.ADMINISTRATOR:
-        return redirect(url_for("login"))
+        return redirect(url_for("index"))
     if request.method == 'GET':
         return render_template("import_users.html")
     if request.method == 'POST':

@@ -12,7 +12,7 @@ def organizer_panel():
         return redirect(url_for("login"))
     user = User.User(session["user"])
     if user.type != User.UserType.ORGANIZER:
-        return redirect(url_for("login"))
+        return redirect(url_for("index"))
     logged_user = user.first_name+' '+user.last_name
     return render_template("organizer.html", logged_user=logged_user)
 
@@ -23,7 +23,7 @@ def organizer_meetings():
         return redirect(url_for("login"))
     user = User.User(session["user"])
     if user.type != User.UserType.ORGANIZER:
-        return redirect(url_for("login"))
+        return redirect(url_for("index"))
     meetings = Meet.Meet.get_by_organizer(user)
     return render_template("organizer_meetings.html", meetings=meetings)
 
@@ -40,7 +40,7 @@ def meet_qr(meet_id):
 
     user = User.User(session["user"])
     if user.type != User.UserType.ORGANIZER:
-        return redirect(url_for("login"))
+        return redirect(url_for("index"))
 
     try:
         meet = Meet.Meet.get_by_linkid(meet_id)
@@ -49,3 +49,4 @@ def meet_qr(meet_id):
 
     qr_data = meet.get_qr_data()
     return render_template("qr.html", qr_data=qr_data, qr_time=setting["qr_time"])
+
