@@ -586,13 +586,27 @@ input:hover{
 
 
 
-#new-meeting-wrapper{
-	background-color: red;
+#new-meeting-wrapper > #meeting-form > label{
+	color: @primary-color;
+	margin-left: 45px;
 }
 
-#new-meeting-wrapper > form{
-	background-color: blue;
+#meeting-form{
+	display: flex;
+	flex-direction: column;
 }
+
+#new-meeting-wrapper > #meeting-form > .form-control{
+	width: 250px;
+	align-self: center;
+}
+
+
+#meeting-form  > *{
+	transition: 0s !important;
+}
+
+
 
 @keyframes wave {
 	0% {
