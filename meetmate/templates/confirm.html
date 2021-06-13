@@ -18,7 +18,6 @@
             <h2 id="message" class="text-center text-white">Sprawdzanie lokalizacji...</h2>
         </div>
         <script>
-            r = 0
             setTimeout(function(){
                 navigator.geolocation.getCurrentPosition(function(position){
                     var form_data = new FormData()
@@ -28,7 +27,6 @@
                     var request = new XMLHttpRequest();
                     request.open("POST", document.location.href);
                     request.onreadystatechange = function(){
-                        r = request
                         if(request.readyState !== XMLHttpRequest.DONE){
                             return;
                         }

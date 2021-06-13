@@ -54,30 +54,30 @@ def edit_meeting(meet_id):
                 {
                     "status": "OK",
                     "data": {
-                        meet.name,
-                        meet.description,
-                        meet.start_time,
-                        meet.stop_time,
-                        meet.localization,
-                        meet.status.value,
-                        meet.longitude,
-                        meet.latitude,
-                        meet.radius,
-                        meet.link_id
+                        "name": meet.name,
+                        "description": meet.description,
+                        "start_time": meet.start_time,
+                        "stop_time": meet.stop_time,
+                        "localization": meet.localization,
+                        "status": meet.status.value,
+                        "longitude": meet.longitude,
+                        "latitude": meet.latitude,
+                        "radius": meet.radius,
+                        "link_id": meet.link_id
                     }
                 }
             )
 
         elif action == "edit":
-            name = request.form.get("name")
-            description = request.form.get("description")
-            start_time = request.form.get("start_time")
-            stop_time = request.form.get("stop_time")
-            localization = request.form.get("localization")
-            status = request.form.get("status")
-            longitude = request.form.get("longitude")
-            latitude = request.form.get("latitude")
-            radius = request.form.get("radius")
+            name = str(request.form.get("name"))
+            description = str(request.form.get("description"))
+            start_time = int(request.form.get("start_time"))
+            stop_time = int(request.form.get("stop_time"))
+            localization = str(request.form.get("localization"))
+            status = str(request.form.get("status"))
+            longitude = float(request.form.get("longitude"))
+            latitude = float(request.form.get("latitude"))
+            radius = int(request.form.get("radius"))
 
             meet.name = name
             meet.description = description
