@@ -259,7 +259,6 @@ input:hover{
 }
 
 #user-edit{
-	height: 400px;
 	background-color: @lighter-gray;
 	border-radius: 8px;
 	position: relative;
@@ -597,10 +596,16 @@ input:hover{
   }
 
 
+#user-edit > #meeting-form > label,
 #new-meeting-wrapper > #meeting-form > label{
 	color: @primary-color;
 	margin-left: 45px;
 }
+
+#user-edit > #meeting-form > label{
+	margin-left: 0;
+}
+
 
 #meeting-form{
 	display: flex;
