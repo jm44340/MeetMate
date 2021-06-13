@@ -77,8 +77,8 @@
                             <button type="button" class="mb-4 mt-4 no-transition"> Zatwierdz </button>
                         </div>
     
-                        <a class="col no-transition button-men" id="buttonRaport" href="" target="_blank">
-                            <button type="button" class="mb-4 mt-4 no-transition"> Raport </button>
+                        <a class="col no-transition button-men" id="buttonReport" href="" target="_blank">
+                            <button type="button" class="mb-4 mt-4 no-transition"> Report </button>
                         </a>
 
                         <a class="col no-transition button-men" id="buttonQR" href="" target="_blank">
@@ -208,7 +208,7 @@
                     $('#inputMeetingRadius').val(meet_data.radius);
 
                     $('#buttonAccept').attr("onclick", "meet_update('" + meet_data.link_id + "')")
-                    $('#buttonRaport').attr("href", "/raport/" + meet_data.link_id)
+                    $('#buttonReport').attr("href", "/report/" + meet_data.link_id)
                     $('#buttonQR').attr("href", "/meet/" + meet_data.link_id)
 
                 }

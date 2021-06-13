@@ -150,7 +150,7 @@ def meet_qr(meet_id):
     qr_data = meet.get_qr_data()
     return render_template("qr.html", qr_data=qr_data, qr_time=setting["qr_time"])
 
-@app.route("/raport/<meet_id>")
+@app.route("/report/<meet_id>")
 def raport(meet_id):
     if "user" not in session.keys():
         return redirect(url_for("login"))
